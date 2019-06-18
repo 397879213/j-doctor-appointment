@@ -13,7 +13,7 @@ public class Connection {
     private Connection(){
     }
     
-    public static EntityManager getConexao(){
+    public static EntityManager getConnection(){
          
         if (em == null)
          em = emf.createEntityManager();
