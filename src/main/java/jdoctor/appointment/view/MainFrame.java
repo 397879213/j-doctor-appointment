@@ -11,6 +11,7 @@ public class MainFrame extends javax.swing.JFrame {
      */
     public MainFrame() {
         initComponents();
+        mainLoginPanel1.setMainFrame(this);
     }
 
     /**
@@ -22,18 +23,17 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        mainLoginPanel1 = new jdoctor.appointment.view.docuser.MainLoginPanel();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 440, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 321, Short.MAX_VALUE)
-        );
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(432432, 432432));
+        setMinimumSize(new java.awt.Dimension(400, 500));
+        setPreferredSize(new java.awt.Dimension(650, 600));
+        setResizable(false);
+        getContentPane().setLayout(new java.awt.CardLayout());
+
+        mainLoginPanel1.setMinimumSize(new java.awt.Dimension(400, 750));
+        getContentPane().add(mainLoginPanel1, "card2");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -81,5 +81,6 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private jdoctor.appointment.view.docuser.MainLoginPanel mainLoginPanel1;
     // End of variables declaration//GEN-END:variables
 }
