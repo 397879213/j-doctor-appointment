@@ -13,26 +13,6 @@ public class UserFunctionFormPanel extends GenericFormPanel {
         doctorPanel.setVisible(false);
     }
     
-    @Override
-    public boolean isFormValid() {
-        switch(cbxType.getSelectedIndex()) {
-            case 0: 
-                addError("Escolha uma função"); 
-                return false;
-            case 1:
-                System.out.println("ALOU");
-                if (txtEspecialization.getText().length() < 1) {
-                    addError("Medico precisa de uma especialização");
-                    return false;
-                }
-                break;
-            case 2:
-                break;
-        }
-        
-        return true;
-    }
-    
     @Override 
     public void setForm(Object entity) {
         if (entity.getClass().equals(Doctor.class)) {
@@ -46,12 +26,18 @@ public class UserFunctionFormPanel extends GenericFormPanel {
         }
     }
     
-    public Object createUserObject() {
-        switch(cbxType.getSelectedIndex()) {
-            case 1: return new Doctor();
-            case 2: return new Secretary();
-        }
-        return null;
+    public boolean isDoctor() {
+       if (cbxType.getSelectedIndex() == 1) {
+           return true;
+       }
+        return false;
+    }
+    
+    public boolean isSecretary() {
+        if (cbxType.getSelectedIndex() == 2) {
+           return true;
+       }
+        return false;
     }
     
     @Override

@@ -2,11 +2,17 @@ package jdoctor.appointment.view.docuser;
 
 import java.util.ArrayList;
 import java.util.List;
+import jdoctor.appointment.controller.DoctorController;
+import jdoctor.appointment.exception.ControllerException;
+import jdoctor.appointment.model.Doctor;
+import jdoctor.appointment.model.Secretary;
 import lombok.Setter;
 
 public class RegisterFormPanel extends javax.swing.JPanel {
     @Setter
     private MainLoginPanel main;
+    
+    private DoctorController doctorController;
     /**
      * Creates new form LoginFormPanel
      */
@@ -16,10 +22,13 @@ public class RegisterFormPanel extends javax.swing.JPanel {
         personFormPanel.setErrorPanel(errorPanel);
         userFormPanel.setErrorPanel(errorPanel);
         userFunctionFormPanel.setErrorPanel(errorPanel);
+        doctorController = new DoctorController();
     }
     
     public void cleanForm() {
         personFormPanel.cleanForm();
+        userFormPanel.cleanForm();
+        userFunctionFormPanel.cleanForm();
     }
 
     /**
@@ -34,11 +43,11 @@ public class RegisterFormPanel extends javax.swing.JPanel {
 
         lblHeader = new javax.swing.JLabel();
         errorPanel = new jdoctor.appointment.view.error.ErrorPanel();
-        personFormPanel = new jdoctor.appointment.view.person.PersonFormPanel();
+        personFormPanel = new jdoctor.appointment.view.docuser.PersonFormPanel();
         jSeparator1 = new javax.swing.JSeparator();
         actionsPanel = new javax.swing.JPanel();
+        btnBack = new javax.swing.JButton();
         btnRegister = new javax.swing.JButton();
-        btnLogin = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
         userFormPanel = new jdoctor.appointment.view.docuser.UserFormPanel();
         userFunctionFormPanel = new jdoctor.appointment.view.docuser.UserFunctionFormPanel();
@@ -93,21 +102,21 @@ public class RegisterFormPanel extends javax.swing.JPanel {
 
         actionsPanel.setLayout(new java.awt.GridLayout(1, 0, 15, 0));
 
-        btnRegister.setText("Voltar");
+        btnBack.setText("Voltar");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
+        actionsPanel.add(btnBack);
+
+        btnRegister.setText("Registrar");
         btnRegister.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegisterActionPerformed(evt);
             }
         });
         actionsPanel.add(btnRegister);
-
-        btnLogin.setText("Registrar");
-        btnLogin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLoginActionPerformed(evt);
-            }
-        });
-        actionsPanel.add(btnLogin);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -139,32 +148,52 @@ public class RegisterFormPanel extends javax.swing.JPanel {
         add(userFunctionFormPanel, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         main.switchLogin();
-    }//GEN-LAST:event_btnRegisterActionPerformed
+    }//GEN-LAST:event_btnBackActionPerformed
 
     
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
 
     }//GEN-LAST:event_formComponentShown
 
-    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+    private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
         errorPanel.clean();
-        personFormPanel.isFormValid();
-        userFormPanel.isFormValid();
-        userFunctionFormPanel.isFormValid();
-    }//GEN-LAST:event_btnLoginActionPerformed
+        
+        boolean isDoctor = false;
+        boolean isSecretary = false;
+            
+        if (userFunctionFormPanel.isDoctor()) {
+            Doctor doctor = new Doctor();
+            userFormPanel.formToObject(doctor);
+            personFormPanel.formToObject(doctor);
+            userFunctionFormPanel.formToObject(doctor);
+            
+            try {
+                doctorController.save(doctor);
+            } catch (ControllerException e) {
+                errorPanel.addError(e.getMessage());
+            }
+        } 
+
+        if (userFunctionFormPanel.isSecretary()) {
+            Secretary secretary = new Secretary();
+            userFormPanel.formToObject(secretary);
+            personFormPanel.formToObject(secretary);
+            userFunctionFormPanel.formToObject(secretary);
+        }
+    }//GEN-LAST:event_btnRegisterActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel actionsPanel;
-    private javax.swing.JButton btnLogin;
+    private javax.swing.JButton btnBack;
     private javax.swing.JButton btnRegister;
     private jdoctor.appointment.view.error.ErrorPanel errorPanel;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel lblHeader;
-    private jdoctor.appointment.view.person.PersonFormPanel personFormPanel;
+    private jdoctor.appointment.view.docuser.PersonFormPanel personFormPanel;
     private jdoctor.appointment.view.docuser.UserFormPanel userFormPanel;
     private jdoctor.appointment.view.docuser.UserFunctionFormPanel userFunctionFormPanel;
     // End of variables declaration//GEN-END:variables

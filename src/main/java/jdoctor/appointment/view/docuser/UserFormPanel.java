@@ -13,11 +13,6 @@ public class UserFormPanel extends GenericFormPanel {
         
     }
     
-    @Override
-    public boolean isFormValid() {
-        return true;
-    }
-    
     @Override 
     public void setForm(Object entity) {
         DocUser docUser;

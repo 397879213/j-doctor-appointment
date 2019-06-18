@@ -3,6 +3,7 @@ package jdoctor.appointment.view;
 import com.jtattoo.plaf.smart.SmartLookAndFeel;
 import java.util.Properties;
 import javax.swing.UIManager;
+import jdoctor.appointment.util.Connection;
 
 public class MainFrame extends javax.swing.JFrame {
 
@@ -12,6 +13,7 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         initComponents();
         mainLoginPanel1.setMainFrame(this);
+        Connection.getConnection();
     }
 
     /**

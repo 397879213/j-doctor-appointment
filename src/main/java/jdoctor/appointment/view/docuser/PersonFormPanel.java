@@ -1,4 +1,4 @@
-package jdoctor.appointment.view.person;
+package jdoctor.appointment.view.docuser;
 
 import javax.swing.text.MaskFormatter;
 import jdoctor.appointment.model.Person;
@@ -54,6 +54,7 @@ public class PersonFormPanel extends GenericFormPanel {
         person.setPhoneNumber(txtPhone.getText());
     }
     
+    /*
     @Override
     public boolean isFormValid() {
         boolean errorFind = false;
@@ -82,7 +83,7 @@ public class PersonFormPanel extends GenericFormPanel {
         }
         
         return !errorFind;
-    }
+    }*/
 
 
     @SuppressWarnings("unchecked")

@@ -9,9 +9,11 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @PrimaryKeyJoinColumn(name="id")
+@ToString
 public class Doctor extends DocUser {
     @Getter @Setter
     private String specialization;
@@ -21,5 +23,6 @@ public class Doctor extends DocUser {
     private AvailableSchedule availableSchedule;
     
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private List<Appointment> appointments;
 }

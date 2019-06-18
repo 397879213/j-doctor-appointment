@@ -46,18 +46,6 @@ public class GenericFormPanel extends javax.swing.JPanel implements FormInterfac
     }
 
     @Override
-    public boolean isFormValid() {
-        return true;
-    }
-
-    @Override
-    public void addError(String error) {
-        if (errorPanel != null) {
-            errorPanel.addError(error);
-        }
-    }
-
-    @Override
     public void setForm(Object entity) {
         
     }
