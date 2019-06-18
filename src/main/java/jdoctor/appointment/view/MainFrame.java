@@ -29,7 +29,6 @@ public class MainFrame extends javax.swing.JFrame {
         setMaximumSize(new java.awt.Dimension(432432, 432432));
         setMinimumSize(new java.awt.Dimension(400, 500));
         setPreferredSize(new java.awt.Dimension(650, 600));
-        setResizable(false);
         getContentPane().setLayout(new java.awt.CardLayout());
 
         mainLoginPanel1.setMinimumSize(new java.awt.Dimension(400, 750));

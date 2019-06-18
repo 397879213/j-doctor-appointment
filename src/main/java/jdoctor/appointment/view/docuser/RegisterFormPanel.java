@@ -12,18 +12,14 @@ public class RegisterFormPanel extends javax.swing.JPanel {
      */
     public RegisterFormPanel() {
         initComponents();
-        doctorPanel.setVisible(false);
+        errorPanel.setVisible(false);
+        personFormPanel.setErrorPanel(errorPanel);
+        userFormPanel.setErrorPanel(errorPanel);
+        userFunctionFormPanel.setErrorPanel(errorPanel);
     }
     
     public void cleanForm() {
-        txtDocCPF.setText("");
-        txtDocRG.setText("");
-        txtEmail.setText("");
-        txtName.setText("");
-        txtPhone.setText("");
-        txtUserNick.setText("");
-        pasConfirm.setText("");
-        pasPassword.setText("");
+        personFormPanel.cleanForm();
     }
 
     /**
@@ -36,35 +32,16 @@ public class RegisterFormPanel extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        lblHeaderUser1 = new javax.swing.JLabel();
-        lblHeaderUser = new javax.swing.JLabel();
-        lblName = new javax.swing.JLabel();
-        txtName = new javax.swing.JTextField();
-        lblEmail = new javax.swing.JLabel();
-        txtEmail = new javax.swing.JTextField();
-        lblPhone = new javax.swing.JLabel();
-        txtPhone = new javax.swing.JTextField();
-        lblDocRG = new javax.swing.JLabel();
-        txtDocRG = new javax.swing.JTextField();
-        lblDocCPF = new javax.swing.JLabel();
-        txtDocCPF = new javax.swing.JTextField();
+        lblHeader = new javax.swing.JLabel();
+        errorPanel = new jdoctor.appointment.view.error.ErrorPanel();
+        personFormPanel = new jdoctor.appointment.view.person.PersonFormPanel();
         jSeparator1 = new javax.swing.JSeparator();
-        lblUserNick5 = new javax.swing.JLabel();
         actionsPanel = new javax.swing.JPanel();
         btnRegister = new javax.swing.JButton();
         btnLogin = new javax.swing.JButton();
-        cbxType = new javax.swing.JComboBox<>();
-        doctorPanel = new javax.swing.JPanel();
-        lblName1 = new javax.swing.JLabel();
-        txtName1 = new javax.swing.JTextField();
-        lblHeaderUser2 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
-        lblUserNick = new javax.swing.JLabel();
-        txtUserNick = new javax.swing.JTextField();
-        lblPassword = new javax.swing.JLabel();
-        pasPassword = new javax.swing.JPasswordField();
-        lblConfirm = new javax.swing.JLabel();
-        pasConfirm = new javax.swing.JPasswordField();
+        userFormPanel = new jdoctor.appointment.view.docuser.UserFormPanel();
+        userFunctionFormPanel = new jdoctor.appointment.view.docuser.UserFunctionFormPanel();
 
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
@@ -73,140 +50,46 @@ public class RegisterFormPanel extends javax.swing.JPanel {
         });
         setLayout(new java.awt.GridBagLayout());
 
-        lblHeaderUser1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        lblHeaderUser1.setText("Informações Gerais");
+        lblHeader.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        lblHeader.setText("REGISTRO USUARIO");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.insets = new java.awt.Insets(18, 0, 18, 0);
-        add(lblHeaderUser1, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(8, 0, 8, 0);
+        add(lblHeader, gridBagConstraints);
 
-        lblHeaderUser.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        lblHeaderUser.setText("Sistema");
+        javax.swing.GroupLayout errorPanelLayout = new javax.swing.GroupLayout(errorPanel);
+        errorPanel.setLayout(errorPanelLayout);
+        errorPanelLayout.setHorizontalGroup(
+            errorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        errorPanelLayout.setVerticalGroup(
+            errorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.insets = new java.awt.Insets(18, 0, 18, 0);
-        add(lblHeaderUser, gridBagConstraints);
-
-        lblName.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        lblName.setText("Nome");
-        lblName.setPreferredSize(new java.awt.Dimension(100, 22));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 10);
-        add(lblName, gridBagConstraints);
-
-        txtName.setFont(txtName.getFont().deriveFont(txtName.getFont().getSize()+3f));
-        txtName.setMaximumSize(new java.awt.Dimension(300, 2147483647));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 0);
-        add(txtName, gridBagConstraints);
-
-        lblEmail.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        lblEmail.setText("Email");
-        lblEmail.setPreferredSize(new java.awt.Dimension(100, 22));
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
+        add(errorPanel, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 10);
-        add(lblEmail, gridBagConstraints);
-
-        txtEmail.setFont(txtEmail.getFont().deriveFont(txtEmail.getFont().getSize()+3f));
-        txtEmail.setMaximumSize(new java.awt.Dimension(300, 2147483647));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 0);
-        add(txtEmail, gridBagConstraints);
-
-        lblPhone.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        lblPhone.setText("Telefone");
-        lblPhone.setPreferredSize(new java.awt.Dimension(100, 22));
+        add(personFormPanel, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 10);
-        add(lblPhone, gridBagConstraints);
-
-        txtPhone.setFont(txtPhone.getFont().deriveFont(txtPhone.getFont().getSize()+3f));
-        txtPhone.setMaximumSize(new java.awt.Dimension(300, 2147483647));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 0);
-        add(txtPhone, gridBagConstraints);
-
-        lblDocRG.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        lblDocRG.setText("Identidade");
-        lblDocRG.setPreferredSize(new java.awt.Dimension(100, 22));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 10);
-        add(lblDocRG, gridBagConstraints);
-
-        txtDocRG.setFont(txtDocRG.getFont().deriveFont(txtDocRG.getFont().getSize()+3f));
-        txtDocRG.setMaximumSize(new java.awt.Dimension(300, 2147483647));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 0);
-        add(txtDocRG, gridBagConstraints);
-
-        lblDocCPF.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        lblDocCPF.setText("CPF");
-        lblDocCPF.setPreferredSize(new java.awt.Dimension(100, 22));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 10);
-        add(lblDocCPF, gridBagConstraints);
-
-        txtDocCPF.setFont(txtDocCPF.getFont().deriveFont(txtDocCPF.getFont().getSize()+3f));
-        txtDocCPF.setMaximumSize(new java.awt.Dimension(300, 2147483647));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 0);
-        add(txtDocCPF, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(7, 0, 7, 0);
         add(jSeparator1, gridBagConstraints);
-
-        lblUserNick5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        lblUserNick5.setText("Sou");
-        lblUserNick5.setPreferredSize(new java.awt.Dimension(100, 22));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 10);
-        add(lblUserNick5, gridBagConstraints);
 
         actionsPanel.setLayout(new java.awt.GridLayout(1, 0, 15, 0));
 
@@ -219,184 +102,70 @@ public class RegisterFormPanel extends javax.swing.JPanel {
         actionsPanel.add(btnRegister);
 
         btnLogin.setText("Registrar");
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoginActionPerformed(evt);
+            }
+        });
         actionsPanel.add(btnLogin);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 16;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_END;
         gridBagConstraints.weightx = 0.9;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         add(actionsPanel, gridBagConstraints);
-
-        cbxType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione uma Função", "Secretaria", "Doutor" }));
-        cbxType.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbxTypeActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 0);
-        add(cbxType, gridBagConstraints);
-
-        doctorPanel.setLayout(new java.awt.GridBagLayout());
-
-        lblName1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lblName1.setText("Especialidade");
-        lblName1.setMaximumSize(new java.awt.Dimension(100, 22));
-        lblName1.setMinimumSize(new java.awt.Dimension(100, 22));
-        lblName1.setPreferredSize(new java.awt.Dimension(100, 22));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 10);
-        doctorPanel.add(lblName1, gridBagConstraints);
-
-        txtName1.setFont(txtName1.getFont().deriveFont(txtName1.getFont().getSize()+3f));
-        txtName1.setMaximumSize(new java.awt.Dimension(300, 2147483647));
-        txtName1.setMinimumSize(new java.awt.Dimension(131, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 0);
-        doctorPanel.add(txtName1, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 9;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        add(doctorPanel, gridBagConstraints);
-
-        lblHeaderUser2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        lblHeaderUser2.setText("Função");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.insets = new java.awt.Insets(18, 0, 18, 0);
-        add(lblHeaderUser2, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 11;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(7, 0, 7, 0);
         add(jSeparator2, gridBagConstraints);
-
-        lblUserNick.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        lblUserNick.setText("Usuario");
-        lblUserNick.setPreferredSize(new java.awt.Dimension(100, 22));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 13;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 10);
-        add(lblUserNick, gridBagConstraints);
-
-        txtUserNick.setFont(txtUserNick.getFont().deriveFont(txtUserNick.getFont().getSize()+3f));
-        txtUserNick.setMaximumSize(new java.awt.Dimension(300, 2147483647));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 13;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 0);
-        add(txtUserNick, gridBagConstraints);
-
-        lblPassword.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        lblPassword.setText("Senha");
-        lblPassword.setPreferredSize(new java.awt.Dimension(100, 22));
+        add(userFormPanel, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 14;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 10);
-        add(lblPassword, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 14;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 0);
-        add(pasPassword, gridBagConstraints);
-
-        lblConfirm.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        lblConfirm.setText("Confirme");
-        lblConfirm.setPreferredSize(new java.awt.Dimension(100, 22));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 15;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 10);
-        add(lblConfirm, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 15;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 0);
-        add(pasConfirm, gridBagConstraints);
+        add(userFunctionFormPanel, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void cbxTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxTypeActionPerformed
-        String option = (String) cbxType.getSelectedItem();
-        if (option.equals("Doutor")) {
-            System.out.println("deu");
-            doctorPanel.setVisible(true);
-        } else {
-            doctorPanel.setVisible(false);
-        }
-    }//GEN-LAST:event_cbxTypeActionPerformed
 
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
         main.switchLogin();
     }//GEN-LAST:event_btnRegisterActionPerformed
 
+    
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
 
     }//GEN-LAST:event_formComponentShown
+
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        errorPanel.clean();
+        personFormPanel.isFormValid();
+        userFormPanel.isFormValid();
+        userFunctionFormPanel.isFormValid();
+    }//GEN-LAST:event_btnLoginActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel actionsPanel;
     private javax.swing.JButton btnLogin;
     private javax.swing.JButton btnRegister;
-    private javax.swing.JComboBox<String> cbxType;
-    private javax.swing.JPanel doctorPanel;
+    private jdoctor.appointment.view.error.ErrorPanel errorPanel;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JLabel lblConfirm;
-    private javax.swing.JLabel lblDocCPF;
-    private javax.swing.JLabel lblDocRG;
-    private javax.swing.JLabel lblEmail;
-    private javax.swing.JLabel lblHeaderUser;
-    private javax.swing.JLabel lblHeaderUser1;
-    private javax.swing.JLabel lblHeaderUser2;
-    private javax.swing.JLabel lblName;
-    private javax.swing.JLabel lblName1;
-    private javax.swing.JLabel lblPassword;
-    private javax.swing.JLabel lblPhone;
-    private javax.swing.JLabel lblUserNick;
-    private javax.swing.JLabel lblUserNick5;
-    private javax.swing.JPasswordField pasConfirm;
-    private javax.swing.JPasswordField pasPassword;
-    private javax.swing.JTextField txtDocCPF;
-    private javax.swing.JTextField txtDocRG;
-    private javax.swing.JTextField txtEmail;
-    private javax.swing.JTextField txtName;
-    private javax.swing.JTextField txtName1;
-    private javax.swing.JTextField txtPhone;
-    private javax.swing.JTextField txtUserNick;
+    private javax.swing.JLabel lblHeader;
+    private jdoctor.appointment.view.person.PersonFormPanel personFormPanel;
+    private jdoctor.appointment.view.docuser.UserFormPanel userFormPanel;
+    private jdoctor.appointment.view.docuser.UserFunctionFormPanel userFunctionFormPanel;
     // End of variables declaration//GEN-END:variables
 }

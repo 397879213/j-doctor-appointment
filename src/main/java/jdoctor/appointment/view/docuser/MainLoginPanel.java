@@ -58,6 +58,7 @@ public class MainLoginPanel extends javax.swing.JPanel {
         });
         add(loginPanel, "cardLogin");
 
+        jPanel1.setPreferredSize(new java.awt.Dimension(500, 750));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         registerFormPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 10));
