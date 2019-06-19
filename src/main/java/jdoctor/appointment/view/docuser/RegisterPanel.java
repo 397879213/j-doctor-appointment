@@ -165,6 +165,11 @@ public class RegisterPanel extends javax.swing.JPanel {
         
         boolean isDoctor = false;
         boolean isSecretary = false;
+        
+        if (!userFunctionFormPanel.isDoctor() &&
+                !userFunctionFormPanel.isSecretary()) {
+            errorPanel.addError("Você deve escolher uma função.");
+        }
             
         if (userFunctionFormPanel.isDoctor()) {
             try {

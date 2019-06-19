@@ -11,7 +11,7 @@ public class DocUserController implements ControllerInterface<DocUser> {
     private DocUserDAO dao;
             
     public DocUserController() {
-        
+        dao = new DocUserDAO();
     }
     
     @Override
@@ -25,8 +25,12 @@ public class DocUserController implements ControllerInterface<DocUser> {
     
     @Override
     public void save(DocUser object) throws ControllerException {
-        if (isObjectValid(object)) {
-            dao.save(object);
+        try {
+            if (isObjectValid(object)) {
+                dao.save(object);
+            }
+        } catch (Exception e) {
+            throw new ControllerException("Falha ao salvar usuario "+e.getMessage());
         }
     }
 

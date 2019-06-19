@@ -1,16 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package jdoctor.appointment.view.home;
+package jdoctor.appointment.view.system;
 
-/**
- *
- * @author aug
- */
+import jdoctor.appointment.view.MainFrame;
+import lombok.Setter;
+
+
 public class HomePanel extends javax.swing.JPanel {
-
+    @Setter
+    private MainFrame mainFrame;
     /**
      * Creates new form HomePanel
      */
