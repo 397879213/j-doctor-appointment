@@ -1,4 +1,4 @@
-package jdoctor.appointment.view;
+package jdoctor.appointment.view.form;
 
 import jdoctor.appointment.exception.VisionException;
 

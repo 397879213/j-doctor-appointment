@@ -24,6 +24,10 @@ public class MainLoginPanel extends javax.swing.JPanel {
         cardLayout.show(this, "cardLogin");
     }
     
+    public void loginSucess(String userNick) {
+        mainFrame.switchHome(userNick);
+    }
+    
     public void switchRegister() {
         mainFrame.setTitle(FinalStrings.titleSub+" Registrar");
         cardLayout.show(this, "cardRegister");

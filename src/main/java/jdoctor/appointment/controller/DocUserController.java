@@ -4,13 +4,14 @@ import java.util.List;
 import jdoctor.appointment.dao.DocUserDAO;
 import jdoctor.appointment.exception.ControllerException;
 import jdoctor.appointment.model.DocUser;
+import jdoctor.appointment.util.PasswordUtils;
 
 
 public class DocUserController implements ControllerInterface<DocUser> {
     private DocUserDAO dao;
             
     public DocUserController() {
-        dao = new DocUserDAO();
+        
     }
     
     @Override
@@ -37,5 +38,31 @@ public class DocUserController implements ControllerInterface<DocUser> {
     @Override
     public List<DocUser> getAll() throws ControllerException {
         return dao.findAll();
+    }
+    
+    public DocUser get(String userNick) {
+        for (DocUser user : dao.findAll()) {
+            if (user.getUserNick().equals(userNick)) {
+                return user;
+            }
+        }
+        return null;
+    }
+    
+    public void login(String userNick, String password) throws ControllerException {
+        dao = new DocUserDAO();
+        
+        for (DocUser user : dao.findAll()) {
+            if (user.getUserNick().equals(userNick)) {
+                if(PasswordUtils.verifyUserPassword(password, 
+                        user.getPassword(), user.getPasswordSalt())) {
+                    return;
+                } else {
+                    throw new ControllerException("Senha invalida");
+                }
+            }
+        }
+        
+        throw new ControllerException("Usuario não encontrado");
     }
 }

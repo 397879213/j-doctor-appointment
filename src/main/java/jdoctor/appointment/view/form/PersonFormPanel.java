@@ -6,7 +6,6 @@ import jdoctor.appointment.model.Person;
 import jdoctor.appointment.util.Validation;
 import jdoctor.appointment.view.error.ErrorPanel;
 import lombok.Setter;
-import jdoctor.appointment.view.GenericFormPanel;
 
 
 public class PersonFormPanel extends GenericFormPanel {

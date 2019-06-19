@@ -1,5 +1,5 @@
 
-package jdoctor.appointment.view;
+package jdoctor.appointment.view.form;
 
 import java.awt.Component;
 import javax.swing.JTextField;

@@ -5,6 +5,8 @@
  */
 package jdoctor.appointment.view.docuser;
 
+import jdoctor.appointment.controller.DocUserController;
+import jdoctor.appointment.util.GuiUtils;
 import lombok.Setter;
 
 /**
@@ -13,7 +15,9 @@ import lombok.Setter;
  */
 public class LoginPanel extends javax.swing.JPanel {
     @Setter
-    MainLoginPanel main;
+    private MainLoginPanel main;
+    
+    private DocUserController docUserController;
     /**
      * Creates new form LoginPanel
      */
@@ -34,9 +38,9 @@ public class LoginPanel extends javax.swing.JPanel {
         logoPanel1 = new jdoctor.appointment.view.misc.LogoPanel();
         formPanel = new javax.swing.JPanel();
         lblUserNick = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        lblUserNick1 = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        txtUserNick = new javax.swing.JTextField();
+        lblPass = new javax.swing.JLabel();
+        pasPassword = new javax.swing.JPasswordField();
         actionsPanel = new javax.swing.JPanel();
         btnRegister = new javax.swing.JButton();
         btnLogin = new javax.swing.JButton();
@@ -65,34 +69,34 @@ public class LoginPanel extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 10);
         formPanel.add(lblUserNick, gridBagConstraints);
 
-        jTextField1.setFont(jTextField1.getFont().deriveFont(jTextField1.getFont().getSize()+3f));
-        jTextField1.setMaximumSize(new java.awt.Dimension(300, 2147483647));
+        txtUserNick.setFont(txtUserNick.getFont().deriveFont(txtUserNick.getFont().getSize()+3f));
+        txtUserNick.setMaximumSize(new java.awt.Dimension(300, 2147483647));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 0);
-        formPanel.add(jTextField1, gridBagConstraints);
+        formPanel.add(txtUserNick, gridBagConstraints);
 
-        lblUserNick1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        lblUserNick1.setText("Senha");
-        lblUserNick1.setPreferredSize(new java.awt.Dimension(100, 22));
+        lblPass.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        lblPass.setText("Senha");
+        lblPass.setPreferredSize(new java.awt.Dimension(100, 22));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
-        formPanel.add(lblUserNick1, gridBagConstraints);
+        formPanel.add(lblPass, gridBagConstraints);
 
-        jPasswordField1.setFont(jPasswordField1.getFont().deriveFont(jPasswordField1.getFont().getSize()+3f));
-        jPasswordField1.setMaximumSize(new java.awt.Dimension(300, 2147483647));
+        pasPassword.setFont(pasPassword.getFont().deriveFont(pasPassword.getFont().getSize()+3f));
+        pasPassword.setMaximumSize(new java.awt.Dimension(300, 2147483647));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
-        formPanel.add(jPasswordField1, gridBagConstraints);
+        formPanel.add(pasPassword, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -134,7 +138,13 @@ public class LoginPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_btnRegisterActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        // TODO add your handling code here:
+        docUserController = new DocUserController();
+        try {
+            docUserController.login(txtUserNick.getText(), pasPassword.getText());
+            main.loginSucess(txtUserNick.getText());
+        } catch (Exception e) {
+            GuiUtils.showErrorOkDialog(e.getMessage(), this);
+        }
     }//GEN-LAST:event_btnLoginActionPerformed
 
 
@@ -143,10 +153,10 @@ public class LoginPanel extends javax.swing.JPanel {
     private javax.swing.JButton btnLogin;
     private javax.swing.JButton btnRegister;
     private javax.swing.JPanel formPanel;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel lblPass;
     private javax.swing.JLabel lblUserNick;
-    private javax.swing.JLabel lblUserNick1;
     private jdoctor.appointment.view.misc.LogoPanel logoPanel1;
+    private javax.swing.JPasswordField pasPassword;
+    private javax.swing.JTextField txtUserNick;
     // End of variables declaration//GEN-END:variables
 }

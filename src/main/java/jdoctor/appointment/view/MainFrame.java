@@ -1,18 +1,33 @@
 package jdoctor.appointment.view;
 
 import com.jtattoo.plaf.smart.SmartLookAndFeel;
+import java.awt.CardLayout;
 import java.util.Properties;
 import javax.swing.UIManager;
 import jdoctor.appointment.util.Connection;
+import jdoctor.appointment.util.FinalStrings;
 
 public class MainFrame extends javax.swing.JFrame {
-
+    CardLayout layout;
     /**
      * Creates new form mainFrame
      */
     public MainFrame() {
         initComponents();
-        mainLoginPanel1.setMainFrame(this);
+        mainLoginPanel.setMainFrame(this);
+        layout = (CardLayout) getContentPane().getLayout();
+        switchLogin();
+    }
+    
+    public void switchLogin() {
+        layout.show(getContentPane(), "cardLogin");
+        setTitle(FinalStrings.titleSub+" Login");
+    }
+    
+    public void switchHome(String userNick) {
+        layout.show(getContentPane(), "cardHome");
+        setTitle(FinalStrings.titleSub+" Pagina Inicial");
+        System.out.println("Loguei como "+userNick);
     }
 
     /**
@@ -24,16 +39,16 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        mainLoginPanel1 = new jdoctor.appointment.view.docuser.MainLoginPanel();
+        mainLoginPanel = new jdoctor.appointment.view.docuser.MainLoginPanel();
+        homePanel = new jdoctor.appointment.view.home.HomePanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(432432, 432432));
         setMinimumSize(new java.awt.Dimension(400, 500));
-        setPreferredSize(new java.awt.Dimension(650, 600));
         getContentPane().setLayout(new java.awt.CardLayout());
 
-        mainLoginPanel1.setMinimumSize(new java.awt.Dimension(400, 750));
-        getContentPane().add(mainLoginPanel1, "card2");
+        mainLoginPanel.setMinimumSize(new java.awt.Dimension(400, 750));
+        getContentPane().add(mainLoginPanel, "card2");
+        getContentPane().add(homePanel, "cardHome");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -81,6 +96,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private jdoctor.appointment.view.docuser.MainLoginPanel mainLoginPanel1;
+    private jdoctor.appointment.view.home.HomePanel homePanel;
+    private jdoctor.appointment.view.docuser.MainLoginPanel mainLoginPanel;
     // End of variables declaration//GEN-END:variables
 }

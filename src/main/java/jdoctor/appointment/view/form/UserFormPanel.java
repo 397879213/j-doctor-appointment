@@ -3,7 +3,6 @@ package jdoctor.appointment.view.form;
 import jdoctor.appointment.exception.VisionException;
 import jdoctor.appointment.model.DocUser;
 import jdoctor.appointment.model.Person;
-import jdoctor.appointment.view.GenericFormPanel;
 
 
 public class UserFormPanel extends GenericFormPanel {
