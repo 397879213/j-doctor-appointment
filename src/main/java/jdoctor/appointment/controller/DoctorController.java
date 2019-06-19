@@ -1,9 +1,14 @@
 package jdoctor.appointment.controller;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import jdoctor.appointment.dao.DoctorDAO;
 import jdoctor.appointment.exception.ControllerException;
+import jdoctor.appointment.model.DocUser;
 import jdoctor.appointment.model.Doctor;
+import jdoctor.appointment.model.UserRolesEnum;
+import jdoctor.appointment.util.PasswordUtils;
 
 
 public class DoctorController implements ControllerInterface<Doctor> {
@@ -27,12 +32,44 @@ public class DoctorController implements ControllerInterface<Doctor> {
             throw new ControllerException("Medico precisa de uma especialização");
         }
         
+        if ((object.getPasswordSalt() == null || object.getPasswordSalt().isEmpty()) && 
+                object.getPassword().length() <= 4) {
+            throw new ControllerException("Senha deve possuir mais que 4"
+                    + " caracteres");
+        }
+        
         return true;
     }
     
     @Override
     public void save(Doctor object) throws ControllerException {
         if (isObjectValid(object)) {
+            
+            // Trata senha
+            if (object.getPasswordSalt() == null || object.getPasswordSalt().isEmpty()) {
+                object.setPasswordSalt(PasswordUtils.getSalt());
+                object.setPassword(PasswordUtils.generateSecurePassword(
+                        object.getPassword(), object.getPasswordSalt()));
+            }
+            
+            // Trata Permissões iniciais
+            if (object.getRoles() == null || object.getRoles().isEmpty()) {
+               Set<UserRolesEnum> roles = new HashSet<>();
+               roles.add(UserRolesEnum.EDIT_APPOINTMENT);
+
+               if (docUserController.getAll().isEmpty()) {
+                   roles.add(UserRolesEnum.ADMIN);
+               }
+
+            } 
+            
+            // Trata nick igual
+            for (DocUser user : docUserController.getAll()) {
+                if (user.getUserNick().equals(object.getUserNick())) {
+                    throw new ControllerException("Ja existe um usuario com "
+                            + "esse nome de usuario");
+                }
+            }
             dao.save(object);
         }
     }

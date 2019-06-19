@@ -1,5 +1,6 @@
-package jdoctor.appointment.view.docuser;
+package jdoctor.appointment.view.form;
 
+import jdoctor.appointment.exception.VisionException;
 import jdoctor.appointment.model.Doctor;
 import jdoctor.appointment.model.Secretary;
 import jdoctor.appointment.view.GenericFormPanel;
@@ -41,7 +42,7 @@ public class UserFunctionFormPanel extends GenericFormPanel {
     }
     
     @Override
-    public void formToObject(Object object) {
+    public void formToObject(Object object) throws VisionException {
         if (object.getClass().equals(Doctor.class)) {
             Doctor doctor = (Doctor) object;
             doctor.setSpecialization(txtEspecialization.getText());

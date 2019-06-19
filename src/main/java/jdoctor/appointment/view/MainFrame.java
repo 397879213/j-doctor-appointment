@@ -13,7 +13,6 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         initComponents();
         mainLoginPanel1.setMainFrame(this);
-        Connection.getConnection();
     }
 
     /**

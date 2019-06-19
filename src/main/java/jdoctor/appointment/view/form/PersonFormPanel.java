@@ -1,6 +1,7 @@
-package jdoctor.appointment.view.docuser;
+package jdoctor.appointment.view.form;
 
 import javax.swing.text.MaskFormatter;
+import jdoctor.appointment.exception.VisionException;
 import jdoctor.appointment.model.Person;
 import jdoctor.appointment.util.Validation;
 import jdoctor.appointment.view.error.ErrorPanel;
@@ -38,7 +39,7 @@ public class PersonFormPanel extends GenericFormPanel {
     }
     
     @Override
-    public void formToObject(Object object) {
+    public void formToObject(Object object) throws VisionException {
         Person person;
         try {
             person = (Person) object; 

@@ -3,6 +3,7 @@ package jdoctor.appointment.view;
 
 import java.awt.Component;
 import javax.swing.JTextField;
+import jdoctor.appointment.exception.VisionException;
 import jdoctor.appointment.view.error.ErrorPanel;
 import lombok.Setter;
 
@@ -51,7 +52,7 @@ public class GenericFormPanel extends javax.swing.JPanel implements FormInterfac
     }
 
     @Override
-    public void formToObject(Object object) {
+    public void formToObject(Object object) throws VisionException {
         
     }
 

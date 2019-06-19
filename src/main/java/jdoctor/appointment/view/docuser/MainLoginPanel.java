@@ -42,7 +42,7 @@ public class MainLoginPanel extends javax.swing.JPanel {
         loginPanel = new jdoctor.appointment.view.docuser.LoginPanel();
         scrollRegister = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
-        registerFormPanel1 = new jdoctor.appointment.view.docuser.RegisterFormPanel();
+        registerFormPanel1 = new jdoctor.appointment.view.docuser.RegisterPanel();
 
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
@@ -91,7 +91,7 @@ public class MainLoginPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
     private jdoctor.appointment.view.docuser.LoginPanel loginPanel;
-    private jdoctor.appointment.view.docuser.RegisterFormPanel registerFormPanel1;
+    private jdoctor.appointment.view.docuser.RegisterPanel registerFormPanel1;
     private javax.swing.JScrollPane scrollRegister;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,5 +1,6 @@
-package jdoctor.appointment.view.docuser;
+package jdoctor.appointment.view.form;
 
+import jdoctor.appointment.exception.VisionException;
 import jdoctor.appointment.model.DocUser;
 import jdoctor.appointment.model.Person;
 import jdoctor.appointment.view.GenericFormPanel;
@@ -27,7 +28,7 @@ public class UserFormPanel extends GenericFormPanel {
     }
     
     @Override
-    public void formToObject(Object object) {
+    public void formToObject(Object object) throws VisionException {
         DocUser docUser;
         try {
             docUser = (DocUser) object; 
@@ -36,7 +37,12 @@ public class UserFormPanel extends GenericFormPanel {
             return;
         }
         
+        if (!pasConfirm.getText().equals(pasPassword.getText())) {
+            throw new VisionException("Senhas não coincidem");
+        }
+        
         docUser.setUserNick(txtUserNick.getText());
+        docUser.setPassword(pasPassword.getText());
     }
 
     
