@@ -20,6 +20,12 @@ public class EditSchedulePanel extends javax.swing.JPanel {
     public EditSchedulePanel() {
         initComponents();
         MondayTable.setMainSchedule(this);
+        TuesdayTable.setMainSchedule(this);
+        WednesdayTable.setMainSchedule(this);
+        ThursdayTable.setMainSchedule(this);
+        FridayTable.setMainSchedule(this);
+        SaturdayTable.setMainSchedule(this);
+        SundayTable.setMainSchedule(this);
     }
     
     public void setDoctor(Doctor doctor) {
