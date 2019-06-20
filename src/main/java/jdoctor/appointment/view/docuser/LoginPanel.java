@@ -70,6 +70,7 @@ public class LoginPanel extends javax.swing.JPanel {
         formPanel.add(lblUserNick, gridBagConstraints);
 
         txtUserNick.setFont(txtUserNick.getFont().deriveFont(txtUserNick.getFont().getSize()+3f));
+        txtUserNick.setText("testt");
         txtUserNick.setMaximumSize(new java.awt.Dimension(300, 2147483647));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -90,6 +91,7 @@ public class LoginPanel extends javax.swing.JPanel {
         formPanel.add(lblPass, gridBagConstraints);
 
         pasPassword.setFont(pasPassword.getFont().deriveFont(pasPassword.getFont().getSize()+3f));
+        pasPassword.setText("testt");
         pasPassword.setMaximumSize(new java.awt.Dimension(300, 2147483647));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;

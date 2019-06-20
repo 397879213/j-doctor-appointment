@@ -9,9 +9,11 @@ import jdoctor.appointment.util.PasswordUtils;
 
 public class DocUserController implements ControllerInterface<DocUser> {
     private DocUserDAO dao;
+    private PersonController personController;
             
     public DocUserController() {
         dao = new DocUserDAO();
+        personController = new PersonController();
     }
     
     @Override
@@ -26,7 +28,7 @@ public class DocUserController implements ControllerInterface<DocUser> {
     @Override
     public void save(DocUser object) throws ControllerException {
         try {
-            if (isObjectValid(object)) {
+            if (isObjectValid(object) && personController.isObjectValid(object)) {
                 dao.save(object);
             }
         } catch (Exception e) {

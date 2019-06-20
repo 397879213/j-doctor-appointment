@@ -46,7 +46,7 @@ public class SecretaryController implements ControllerInterface<Secretary> {
             
             // Trata nick igual
             for (DocUser user : docUserController.getAll()) {
-                if (user.getUserNick().equals(object.getUserNick())) {
+                if (user.getUserNick().equals(object.getUserNick()) && user.getId() != object.getId()) {
                     throw new ControllerException("Ja existe um usuario com "
                             + "esse nome de usuario");
                 }

@@ -1,6 +1,7 @@
 package jdoctor.appointment.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -25,6 +26,20 @@ public class AvailableSchedule implements Serializable {
     @Id
     @GeneratedValue
     private Integer id;
+    
+    public AvailableSchedule(Integer id, Doctor doctor) {
+        this.id = id;
+        this.doctor = doctor;
+        this.daysOff = new ArrayList<>();
+ 
+        this.onMonday = new ArrayList<>();
+        this.onTuesday = new ArrayList<>();
+        this.onWednesday = new ArrayList<>();
+        this.onThursday = new ArrayList<>();
+        this.onFriday = new ArrayList<>();
+        this.onSaturday = new ArrayList<>();
+        this.onSunday = new ArrayList<>();
+    }
     
     @Getter @Setter
     @OneToOne(mappedBy = "availableSchedule")

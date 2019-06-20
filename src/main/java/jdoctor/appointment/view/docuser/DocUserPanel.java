@@ -24,6 +24,7 @@ public class DocUserPanel extends javax.swing.JPanel {
         this.user = user;
         personFormPanel.cleanForm();
         personFormPanel.setForm(user);
+        errorPanel.setVisible(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -101,8 +102,9 @@ public class DocUserPanel extends javax.swing.JPanel {
         try {
             personFormPanel.formToObject(user);
             docUserController.save(user);
+            GuiUtils.showConfirmOkDialog("Infomações editadas com sucesso! :)", this);
         } catch (VisionException | ControllerException e) {
-            GuiUtils.showErrorOkDialog(e.getMessage(), this);
+            errorPanel.addError(e.getMessage());
         }
     }//GEN-LAST:event_btnRegisterActionPerformed
 

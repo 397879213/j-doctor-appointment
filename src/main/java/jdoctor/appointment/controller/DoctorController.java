@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import jdoctor.appointment.dao.DoctorDAO;
 import jdoctor.appointment.exception.ControllerException;
+import jdoctor.appointment.model.AvailableSchedule;
 import jdoctor.appointment.model.DocUser;
 import jdoctor.appointment.model.Doctor;
 import jdoctor.appointment.model.UserRolesEnum;
@@ -60,12 +61,19 @@ public class DoctorController implements ControllerInterface<Doctor> {
                if (docUserController.getAll().isEmpty()) {
                    roles.add(UserRolesEnum.ADMIN);
                }
-
+               
+               object.setRoles(roles);
             } 
+            
+            // Trata schelude
+            if (object.getAvailableSchedule() == null) {
+                object.setAvailableSchedule(new AvailableSchedule(null, 
+                        object));
+            }
             
             // Trata nick igual
             for (DocUser user : docUserController.getAll()) {
-                if (user.getUserNick().equals(object.getUserNick())) {
+                if (user.getUserNick().equals(object.getUserNick()) && user.getId() != object.getId()) {
                     throw new ControllerException("Ja existe um usuario com "
                             + "esse nome de usuario");
                 }
