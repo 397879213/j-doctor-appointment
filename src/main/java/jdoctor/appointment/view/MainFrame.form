@@ -48,8 +48,24 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="menuSecretary">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/icons/tumblr_inline_nfq8i3motj1siyl8l.gif"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Secret&#xe1;rio(a)"/>
           </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem3">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/icons/pencil.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Marcar consulta"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem3ActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="menuDoctor">
           <Properties>
@@ -151,6 +167,13 @@
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
           <CardConstraints cardName="EditScheduleCard"/>
+        </Constraint>
+      </Constraints>
+    </Component>
+    <Component class="jdoctor.appointment.view.appointment.AppointmentMain" name="appointmentDateForm">
+      <Constraints>
+        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
+          <CardConstraints cardName="cardAppointmentForm"/>
         </Constraint>
       </Constraints>
     </Component>

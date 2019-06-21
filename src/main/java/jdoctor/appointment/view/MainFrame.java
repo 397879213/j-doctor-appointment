@@ -78,12 +78,14 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         docUserPanel = new jdoctor.appointment.view.docuser.DocUserPanel();
         editSchedulePanel1 = new jdoctor.appointment.view.doctor.EditSchedulePanel();
+        appointmentDateForm = new jdoctor.appointment.view.appointment.AppointmentMain();
         menuBar = new javax.swing.JMenuBar();
         menuSystem = new javax.swing.JMenu();
         menuItemHome = new javax.swing.JMenuItem();
         menuUser = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         menuSecretary = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
         menuDoctor = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
 
@@ -107,6 +109,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         getContentPane().add(scrollUserPanel, "cardProfileEdit");
         getContentPane().add(editSchedulePanel1, "EditScheduleCard");
+        getContentPane().add(appointmentDateForm, "cardAppointmentForm");
 
         menuSystem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/info.png"))); // NOI18N
         menuSystem.setText("Sistema");
@@ -136,7 +139,18 @@ public class MainFrame extends javax.swing.JFrame {
 
         menuBar.add(menuUser);
 
+        menuSecretary.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/tumblr_inline_nfq8i3motj1siyl8l.gif"))); // NOI18N
         menuSecretary.setText("Secretário(a)");
+
+        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pencil.png"))); // NOI18N
+        jMenuItem3.setText("Marcar consulta");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        menuSecretary.add(jMenuItem3);
+
         menuBar.add(menuSecretary);
 
         menuDoctor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/medic32.gif"))); // NOI18N
@@ -170,6 +184,10 @@ public class MainFrame extends javax.swing.JFrame {
         layout.show(this.getContentPane(), "EditScheduleCard");
         editSchedulePanel1.setDoctor((Doctor) CurrentSession.getUser());
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        layout.show(this.getContentPane(), "cardAppointmentForm");
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -214,11 +232,13 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private jdoctor.appointment.view.appointment.AppointmentMain appointmentDateForm;
     private jdoctor.appointment.view.docuser.DocUserPanel docUserPanel;
     private jdoctor.appointment.view.doctor.EditSchedulePanel editSchedulePanel1;
     private jdoctor.appointment.view.system.HomePanel homePanel;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
     private jdoctor.appointment.view.docuser.MainLoginPanel mainLoginPanel;
     private javax.swing.JMenuBar menuBar;
