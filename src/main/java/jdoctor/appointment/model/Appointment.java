@@ -3,6 +3,8 @@ package jdoctor.appointment.model;
 import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -15,11 +17,13 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class Appointment implements Serializable {
     @Id
     @GeneratedValue
@@ -28,19 +32,25 @@ public class Appointment implements Serializable {
     
     @ManyToOne
     @Getter @Setter
+    @ToString.Exclude
     private Doctor doctor;
     
     @ManyToOne
     @Getter @Setter
+    @ToString.Exclude
     private Secretary secretary;
     
     @ManyToOne
     @Getter @Setter
+    @ToString.Exclude
     private Person person;
     
     @Temporal(TemporalType.TIMESTAMP)
     @Getter @Setter
     private Calendar data;
+    
+    @Getter @Setter
+    private Integer duration;
     
     @Getter @Setter
     private String description;
@@ -50,4 +60,12 @@ public class Appointment implements Serializable {
     
     @Getter @Setter
     private Integer installments;
+    
+    @Enumerated(EnumType.STRING)
+    @Getter @Setter
+    private AppointmentTypeEnum appointmentType;
+    
+    @Enumerated(EnumType.STRING)
+    @Getter @Setter
+    private PaymentStatusEnum paymentStatus;
 }

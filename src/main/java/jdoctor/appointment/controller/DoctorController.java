@@ -91,4 +91,8 @@ public class DoctorController implements ControllerInterface<Doctor> {
     public List<Doctor> getAll() throws ControllerException {
         return dao.findAll();
     }
+    
+    public Doctor get(Integer id) throws ControllerException {
+        return dao.findById(id);
+    }
 }

@@ -32,6 +32,11 @@ public class StringTablePanel extends javax.swing.JPanel {
     public Integer getSelectedRow() {
         return tableData.getSelectedRow();
     }
+    
+    public Integer getId() {
+        return (((StringTable) tableData.getModel())
+                .getId(tableData.getSelectedRow()));
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -96,7 +101,7 @@ public class StringTablePanel extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
+        gridBagConstraints.insets = new java.awt.Insets(4, 0, 4, 0);
         add(jScrollPane1, gridBagConstraints);
 
         lblHeader.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N

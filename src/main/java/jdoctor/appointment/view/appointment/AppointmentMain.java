@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.Calendar;
 import javax.swing.JLabel;
+import jdoctor.appointment.model.Appointment;
 
 
 public class AppointmentMain extends javax.swing.JPanel {
@@ -17,6 +18,8 @@ public class AppointmentMain extends javax.swing.JPanel {
      */
     public AppointmentMain() {
         initComponents();
+        
+        appointmentForm.setMain(this);
         
         layout = (CardLayout) getLayout();
         
@@ -34,9 +37,13 @@ public class AppointmentMain extends javax.swing.JPanel {
         }
     }
     
-    public void switchForm() {
-        appointmentForm.setDate();
-        layout.show(this, "cardForm");
+    public void switchCalendar() {
+        layout.show(this, "calendarCard");
+    }
+    
+    public void switchForm(Appointment appointment) {
+       appointmentForm.setDate(appointment);
+       layout.show(this, "cardForm");
     }
     
     public void setDate(Calendar day) {
@@ -69,7 +76,7 @@ public class AppointmentMain extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jPanel1 = new javax.swing.JPanel();
+        calendarPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         panelDays = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -77,11 +84,13 @@ public class AppointmentMain extends javax.swing.JPanel {
         btnLeft = new javax.swing.JButton();
         btnRight = new javax.swing.JButton();
         timesPanel = new javax.swing.JPanel();
+        scrollUserPanel = new javax.swing.JScrollPane();
+        jPanel1 = new javax.swing.JPanel();
         appointmentForm = new jdoctor.appointment.view.appointment.AppointmentForm();
 
         setLayout(new java.awt.CardLayout());
 
-        jPanel1.setLayout(new java.awt.GridBagLayout());
+        calendarPanel.setLayout(new java.awt.GridBagLayout());
 
         panelDays.setLayout(new java.awt.GridLayout(1, 7, 2, 0));
         jScrollPane1.setViewportView(panelDays);
@@ -92,7 +101,7 @@ public class AppointmentMain extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        jPanel1.add(jScrollPane1, gridBagConstraints);
+        calendarPanel.add(jScrollPane1, gridBagConstraints);
 
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
@@ -145,10 +154,24 @@ public class AppointmentMain extends javax.swing.JPanel {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        jPanel1.add(jPanel2, gridBagConstraints);
+        calendarPanel.add(jPanel2, gridBagConstraints);
 
-        add(jPanel1, "cardData");
-        add(appointmentForm, "cardForm");
+        add(calendarPanel, "calendarCard");
+
+        jPanel1.setPreferredSize(new java.awt.Dimension(460, 680));
+        jPanel1.setLayout(new java.awt.GridBagLayout());
+
+        appointmentForm.setMinimumSize(new java.awt.Dimension(470, 437));
+        appointmentForm.setPreferredSize(new java.awt.Dimension(470, 700));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
+        gridBagConstraints.weighty = 1.0;
+        jPanel1.add(appointmentForm, gridBagConstraints);
+
+        scrollUserPanel.setViewportView(jPanel1);
+
+        add(scrollUserPanel, "cardForm");
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLeftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLeftActionPerformed
@@ -167,10 +190,12 @@ public class AppointmentMain extends javax.swing.JPanel {
     private javax.swing.JPanel arrowsPanel;
     private javax.swing.JButton btnLeft;
     private javax.swing.JButton btnRight;
+    private javax.swing.JPanel calendarPanel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panelDays;
+    private javax.swing.JScrollPane scrollUserPanel;
     private javax.swing.JPanel timesPanel;
     // End of variables declaration//GEN-END:variables
 }

@@ -7,9 +7,13 @@ package jdoctor.appointment.view.appointment;
 
 import java.awt.Color;
 import java.awt.MouseInfo;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import jdoctor.appointment.model.Appointment;
 import lombok.Setter;
 
 /**
@@ -17,10 +21,14 @@ import lombok.Setter;
  * @author aug
  */
 public class DayPanel extends javax.swing.JPanel {
+    private Calendar auxCalendar;
     private Calendar calendar;
+    private int minutesTime;
     private final SimpleDateFormat sdf;
     private final SimpleDateFormat date;
     private final SimpleDateFormat day;
+    private Date time;
+    
     @Setter
     private AppointmentMain appointmentMain;
     /**
@@ -29,11 +37,16 @@ public class DayPanel extends javax.swing.JPanel {
     public DayPanel(Calendar calendar, boolean pair, AppointmentMain appointmentMain) {
         initComponents();
         
+        minutesTime = 0;
         this.appointmentMain = appointmentMain;
         
         this.calendar = calendar;
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        
         sdf = new SimpleDateFormat("HH:mm");
-        date = new SimpleDateFormat("dd/mm/yyyy");
+        date = new SimpleDateFormat("dd/MM/yyyy");
         day = new SimpleDateFormat("EEEEE");
         lblTime.setText("00:00");
         lblTime.setVisible(false);
@@ -48,6 +61,7 @@ public class DayPanel extends javax.swing.JPanel {
         
         lblDay.setText(date.format(calendar.getTime()));
         lblDayString.setText(day.format(calendar.getTime()));
+        
     }
 
     /**
@@ -116,7 +130,9 @@ public class DayPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void panelAppointmentsMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelAppointmentsMouseMoved
-        calendar.set(2019, 6, 20, 0, 0, 0);
+        auxCalendar = Calendar.getInstance();
+        auxCalendar.setTime(calendar.getTime());
+        
         // TODO add your handling code here:
         Integer posx = MouseInfo.getPointerInfo().getLocation().x 
                 - panelAppointments.getLocationOnScreen().x;
@@ -130,9 +146,10 @@ public class DayPanel extends javax.swing.JPanel {
         Float step = (maxMinutes /panelAppointments.getHeight());
         
         Integer minute = Math.round(step*posy)*5;
+        minutesTime = minute;
         
-        calendar.add(Calendar.MINUTE, minute);
-        lblTime.setText(sdf.format(calendar.getTime()));
+        auxCalendar.add(auxCalendar.MINUTE, minute);
+        lblTime.setText(sdf.format(auxCalendar.getTime()));
         
         //time
         lblTime.setVisible(true);
@@ -148,8 +165,14 @@ public class DayPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_panelAppointmentsMouseExited
 
     private void panelAppointmentsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelAppointmentsMouseClicked
-        System.out.println("oiii");
-        appointmentMain.switchForm();
+        Appointment appointment = new Appointment();
+        
+        Calendar aux = Calendar.getInstance();
+        aux.setTime(this.calendar.getTime());
+        aux.add(auxCalendar.MINUTE, minutesTime);
+        
+        appointment.setData(aux);
+        appointmentMain.switchForm(appointment);
     }//GEN-LAST:event_panelAppointmentsMouseClicked
 
 

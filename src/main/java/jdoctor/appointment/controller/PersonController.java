@@ -56,4 +56,8 @@ public class PersonController implements ControllerInterface<Person> {
     public List<Person> getAll() throws ControllerException {
         return dao.findAll();
     }
+    
+    public Person get(Integer id) throws ControllerException {
+        return dao.findById(id);
+    }
 }

@@ -80,6 +80,10 @@ public class StringTable extends AbstractTableModel {
         return null;
     }
     
+    public Integer getId(int rowIndex) {
+        return Integer.parseInt(objects.get(rowIndex).get(0));
+    }
+    
     //altera o valor do objeto de acordo com a célula editada
     //e notifica a alteração da tabela, para que ela seja atualizada na tela
     @Override

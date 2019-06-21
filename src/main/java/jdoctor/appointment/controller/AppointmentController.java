@@ -36,7 +36,17 @@ public class AppointmentController implements ControllerInterface<Appointment>{
 
     @Override
     public boolean isObjectValid(Appointment object) throws ControllerException {
-        return true;
+        if(object.getDoctor() == null) {
+            throw new ControllerException("você deve escolher um doutor");
+        }
+        
+        if(object.getPerson() == null) {
+            throw new ControllerException("você deve escolher um paciente");
+        }
+        
+        //System.out.println(object.get)
+        
+        return false;
     }
     
 }

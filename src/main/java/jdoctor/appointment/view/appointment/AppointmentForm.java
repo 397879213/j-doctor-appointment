@@ -5,27 +5,67 @@
  */
 package jdoctor.appointment.view.appointment;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import jdoctor.appointment.controller.AppointmentController;
 import jdoctor.appointment.controller.DoctorController;
+import jdoctor.appointment.controller.PersonController;
+import jdoctor.appointment.exception.ControllerException;
+import jdoctor.appointment.model.Appointment;
 import jdoctor.appointment.model.Doctor;
+import jdoctor.appointment.model.Person;
 import jdoctor.appointment.util.GuiUtils;
+import lombok.Setter;
 
 /**
  *
  * @author aug
  */
 public class AppointmentForm extends javax.swing.JPanel {
+    @Setter
+    private AppointmentMain main;
+    
     private DoctorController doctorController;
+    private PersonController personController;
+    private final SimpleDateFormat sdf;
+    private final SimpleDateFormat dateF;
+    
+    private Appointment appointment;
+    
+    private AppointmentController controller;
+    
     /**
      * Creates new form AppointmentForm
      */
     public AppointmentForm() {
         initComponents();
+        sdf = new SimpleDateFormat("HH:mm");
+        dateF = new SimpleDateFormat("dd/MM/yyyy");
     }
     
-    public void setDate() {
+    public void setDate(Appointment appointment) {
+        errorPanel.setVisible(false);
+        this.appointment = appointment;
+        
+        // ------------- Data
+        // Set data
+        txtData.setText(dateF.format(appointment.getData().getTime()));
+        // Set hours
+        txtHour.setText(sdf.format(appointment.getData().getTime()));
+        
+        // ------------- Doutor
+        Doctor selDoctor = null;
+        if (appointment.getDoctor() != null) {
+            selDoctor = appointment.getDoctor();
+            medicTablePanel.setHeader("Medico: "+selDoctor.getName());
+        } else {
+            medicTablePanel.setHeader("Medico");
+        }
+        
         doctorController = new DoctorController();
-        medicTablePanel.setHeader("Medico");
         ArrayList<ArrayList<String>> doctors = new ArrayList<>();
         
         try {
@@ -38,8 +78,34 @@ public class AppointmentForm extends javax.swing.JPanel {
         } catch (Exception e) {
             GuiUtils.showErrorOkDialog(e.getMessage(), this);
         }
-        
         medicTablePanel.setData(doctors);
+        
+        // ------------- Pessoa
+        Person selPerson = null;
+        if (appointment.getPerson()!= null) {
+            selPerson = appointment.getPerson();
+            personTablePanel.setHeader("Paciente "+selPerson.getName());
+        } else {
+            personTablePanel.setHeader("Paciente");
+        }
+        
+        personController = new PersonController();
+        ArrayList<ArrayList<String>> persons = new ArrayList<>();
+        
+        try {
+            for (Person person : personController.getAll()) {
+                if (person.getClass().equals(Person.class)) {
+                   ArrayList<String> data = new ArrayList<>();
+                   data.add(person.getId().toString());
+                   data.add(person.getName());
+                   persons.add(data);
+                }
+            }
+        } catch (Exception e) {
+            GuiUtils.showErrorOkDialog(e.getMessage(), this);
+        }
+        
+        personTablePanel.setData(persons);
     }
 
     /**
@@ -52,12 +118,43 @@ public class AppointmentForm extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        errorPanel = new jdoctor.appointment.view.error.ErrorPanel();
-        form = new javax.swing.JPanel();
         lblHeader1 = new javax.swing.JLabel();
+        errorPanel = new jdoctor.appointment.view.error.ErrorPanel();
+        jPanel1 = new javax.swing.JPanel();
+        lblHours = new javax.swing.JLabel();
+        txtData = new javax.swing.JFormattedTextField();
+        lblData = new javax.swing.JLabel();
+        txtHour = new javax.swing.JTextField();
+        btnAdd = new javax.swing.JButton();
+        btnSub = new javax.swing.JButton();
+        btnSubHour = new javax.swing.JButton();
+        btnAddHour = new javax.swing.JButton();
         medicTablePanel = new jdoctor.appointment.view.tables.StringTablePanel();
+        personTablePanel = new jdoctor.appointment.view.tables.StringTablePanel();
+        form = new javax.swing.JPanel();
+        lblUserNick = new javax.swing.JLabel();
+        jFormattedTextField1 = new javax.swing.JFormattedTextField();
+        lblUserNick3 = new javax.swing.JLabel();
+        cbxAppointmentType = new javax.swing.JComboBox<>();
+        lblUserNick4 = new javax.swing.JLabel();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        lblUserNick1 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        actionsPanel = new javax.swing.JPanel();
+        jButton3 = new javax.swing.JButton();
+        btnSave = new javax.swing.JButton();
 
         setLayout(new java.awt.GridBagLayout());
+
+        lblHeader1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        lblHeader1.setText("CONSULTA");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(8, 0, 8, 0);
+        add(lblHeader1, gridBagConstraints);
 
         javax.swing.GroupLayout errorPanelLayout = new javax.swing.GroupLayout(errorPanel);
         errorPanel.setLayout(errorPanelLayout);
@@ -77,35 +174,341 @@ public class AppointmentForm extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
         add(errorPanel, gridBagConstraints);
 
-        form.setLayout(new java.awt.GridBagLayout());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        add(form, gridBagConstraints);
+        jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        lblHeader1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        lblHeader1.setText("CONSULTA");
+        lblHours.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblHours.setText("Hora");
+        lblHours.setMaximumSize(new java.awt.Dimension(40, 22));
+        lblHours.setMinimumSize(new java.awt.Dimension(40, 22));
+        lblHours.setPreferredSize(new java.awt.Dimension(40, 22));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 15, 8, 8);
+        jPanel1.add(lblHours, gridBagConstraints);
+
+        txtData.setEditable(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 0);
+        jPanel1.add(txtData, gridBagConstraints);
+
+        lblData.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblData.setText("Data");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(8, 0, 8, 0);
-        add(lblHeader1, gridBagConstraints);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 10);
+        jPanel1.add(lblData, gridBagConstraints);
+
+        txtHour.setEditable(false);
+        txtHour.setMinimumSize(new java.awt.Dimension(75, 20));
+        txtHour.setPreferredSize(new java.awt.Dimension(75, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 0);
+        jPanel1.add(txtHour, gridBagConstraints);
+
+        btnAdd.setText("+");
+        btnAdd.setMaximumSize(new java.awt.Dimension(25, 23));
+        btnAdd.setMinimumSize(new java.awt.Dimension(40, 23));
+        btnAdd.setPreferredSize(new java.awt.Dimension(40, 23));
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 0);
+        jPanel1.add(btnAdd, gridBagConstraints);
+
+        btnSub.setText("-");
+        btnSub.setMaximumSize(new java.awt.Dimension(40, 23));
+        btnSub.setMinimumSize(new java.awt.Dimension(40, 23));
+        btnSub.setPreferredSize(new java.awt.Dimension(40, 23));
+        btnSub.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSubActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 0);
+        jPanel1.add(btnSub, gridBagConstraints);
+
+        btnSubHour.setText("-");
+        btnSubHour.setMaximumSize(new java.awt.Dimension(25, 23));
+        btnSubHour.setMinimumSize(new java.awt.Dimension(40, 23));
+        btnSubHour.setPreferredSize(new java.awt.Dimension(40, 23));
+        btnSubHour.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSubHourActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 0);
+        jPanel1.add(btnSubHour, gridBagConstraints);
+
+        btnAddHour.setText("+");
+        btnAddHour.setMaximumSize(new java.awt.Dimension(25, 23));
+        btnAddHour.setMinimumSize(new java.awt.Dimension(40, 23));
+        btnAddHour.setPreferredSize(new java.awt.Dimension(40, 23));
+        btnAddHour.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddHourActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 7;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 0);
+        jPanel1.add(btnAddHour, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        add(jPanel1, gridBagConstraints);
 
         medicTablePanel.setPreferredSize(new java.awt.Dimension(460, 500));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
         add(medicTablePanel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 1.0;
+        add(personTablePanel, gridBagConstraints);
+
+        form.setLayout(new java.awt.GridBagLayout());
+
+        lblUserNick.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblUserNick.setText("Duração");
+        lblUserNick.setPreferredSize(new java.awt.Dimension(100, 22));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 8, 8, 10);
+        form.add(lblUserNick, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 0);
+        form.add(jFormattedTextField1, gridBagConstraints);
+
+        lblUserNick3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblUserNick3.setText("Valor Total");
+        lblUserNick3.setPreferredSize(new java.awt.Dimension(100, 22));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 10);
+        form.add(lblUserNick3, gridBagConstraints);
+
+        cbxAppointmentType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Normal", "Retorno" }));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 0);
+        form.add(cbxAppointmentType, gridBagConstraints);
+
+        lblUserNick4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblUserNick4.setText("Situação");
+        lblUserNick4.setPreferredSize(new java.awt.Dimension(100, 22));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 8, 8, 10);
+        form.add(lblUserNick4, gridBagConstraints);
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pendente", "Pago" }));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 0);
+        form.add(jComboBox2, gridBagConstraints);
+
+        lblUserNick1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblUserNick1.setText("Consulta");
+        lblUserNick1.setPreferredSize(new java.awt.Dimension(100, 22));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 10);
+        form.add(lblUserNick1, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 0);
+        form.add(jTextField1, gridBagConstraints);
+
+        jButton1.setText("-");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 0);
+        form.add(jButton1, gridBagConstraints);
+
+        jButton2.setText("+");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 0);
+        form.add(jButton2, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(9, 0, 9, 0);
+        add(form, gridBagConstraints);
+
+        actionsPanel.setLayout(new java.awt.GridLayout(1, 0, 20, 0));
+
+        jButton3.setText("Voltar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        actionsPanel.add(jButton3);
+
+        btnSave.setText("Salvar");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
+        actionsPanel.add(btnSave);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(7, 0, 7, 0);
+        add(actionsPanel, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        main.switchCalendar();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        appointment.getData().add(Calendar.DAY_OF_MONTH, +1);
+        txtData.setText(dateF.format(appointment.getData().getTime()));
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnSubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubActionPerformed
+        appointment.getData().add(Calendar.DAY_OF_MONTH, -1);
+        txtData.setText(dateF.format(appointment.getData().getTime()));
+    }//GEN-LAST:event_btnSubActionPerformed
+
+    private void btnSubHourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubHourActionPerformed
+        appointment.getData().add(Calendar.MINUTE, -5);
+        txtHour.setText(sdf.format(appointment.getData().getTime()));
+    }//GEN-LAST:event_btnSubHourActionPerformed
+
+    private void btnAddHourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddHourActionPerformed
+        appointment.getData().add(Calendar.MINUTE, +5);
+        txtHour.setText(sdf.format(appointment.getData().getTime()));
+    }//GEN-LAST:event_btnAddHourActionPerformed
+
+    public void formToObject(Appointment appointment) throws ControllerException {
+        DoctorController doctorController = new DoctorController();
+        if (medicTablePanel.getSelectedRow() != -1) {
+            Doctor aux = doctorController.get(medicTablePanel.getId());
+            appointment.setDoctor(aux);
+        }
+        
+        PersonController personController = new PersonController();
+        if (personTablePanel.getSelectedRow() != -1) {
+            Person aux = personController.get(personTablePanel.getId());
+            appointment.setPerson(aux);
+        }
+        
+        switch ((String) cbxAppointmentType.getSelectedItem()) {
+            case "Normal":
+                //appointment.set
+                break;
+            case "Retorno":
+                break;
+        }
+    }
+    
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        controller = new AppointmentController();
+        errorPanel.clean();
+        try {
+            formToObject(appointment);
+            controller.save(appointment);
+        } catch (ControllerException ex) {
+            errorPanel.addError(ex.getMessage());
+        }
+    }//GEN-LAST:event_btnSaveActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel actionsPanel;
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnAddHour;
+    private javax.swing.JButton btnSave;
+    private javax.swing.JButton btnSub;
+    private javax.swing.JButton btnSubHour;
+    private javax.swing.JComboBox<String> cbxAppointmentType;
     private jdoctor.appointment.view.error.ErrorPanel errorPanel;
     private javax.swing.JPanel form;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JFormattedTextField jFormattedTextField1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel lblData;
     private javax.swing.JLabel lblHeader1;
+    private javax.swing.JLabel lblHours;
+    private javax.swing.JLabel lblUserNick;
+    private javax.swing.JLabel lblUserNick1;
+    private javax.swing.JLabel lblUserNick3;
+    private javax.swing.JLabel lblUserNick4;
     private jdoctor.appointment.view.tables.StringTablePanel medicTablePanel;
+    private jdoctor.appointment.view.tables.StringTablePanel personTablePanel;
+    private javax.swing.JFormattedTextField txtData;
+    private javax.swing.JTextField txtHour;
     // End of variables declaration//GEN-END:variables
 }
