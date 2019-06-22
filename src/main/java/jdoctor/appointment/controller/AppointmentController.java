@@ -46,7 +46,7 @@ public class AppointmentController implements ControllerInterface<Appointment>{
         
         //System.out.println(object.get)
         
-        return false;
+        return true;
     }
     
 }

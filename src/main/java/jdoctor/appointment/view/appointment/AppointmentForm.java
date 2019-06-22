@@ -5,18 +5,27 @@
  */
 package jdoctor.appointment.view.appointment;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
 import jdoctor.appointment.controller.AppointmentController;
 import jdoctor.appointment.controller.DoctorController;
 import jdoctor.appointment.controller.PersonController;
+import jdoctor.appointment.controller.SecretaryController;
 import jdoctor.appointment.exception.ControllerException;
 import jdoctor.appointment.model.Appointment;
+import jdoctor.appointment.model.AppointmentTypeEnum;
 import jdoctor.appointment.model.Doctor;
+import jdoctor.appointment.model.PaymentStatusEnum;
 import jdoctor.appointment.model.Person;
+import jdoctor.appointment.model.Secretary;
+import jdoctor.appointment.session.CurrentSession;
 import jdoctor.appointment.util.GuiUtils;
 import lombok.Setter;
 
@@ -27,6 +36,8 @@ import lombok.Setter;
 public class AppointmentForm extends javax.swing.JPanel {
     @Setter
     private AppointmentMain main;
+    
+    private Calendar hour;
     
     private DoctorController doctorController;
     private PersonController personController;
@@ -106,6 +117,78 @@ public class AppointmentForm extends javax.swing.JPanel {
         }
         
         personTablePanel.setData(persons);
+        
+        // ------------- Horas
+        hour = Calendar.getInstance();
+        hour.set(Calendar.HOUR_OF_DAY, 0);
+        hour.set(Calendar.MINUTE, 0);
+        hour.set(Calendar.SECOND, 0);
+        
+        if (appointment.getDuration() != null) {
+            hour.add(Calendar.MINUTE, appointment.getDuration());
+        } else {
+            hour.add(Calendar.MINUTE, 30);
+            appointment.setDuration(30);
+        }
+        
+        txtDuration.setText(sdf.format(hour.getTime()));
+        
+        // ------------- Consulta
+        if (appointment.getAppointmentType() != null) {
+            switch (appointment.getAppointmentType()) {
+                case NORMAL:
+                    cbxAppointmentType.setSelectedIndex(0);
+                    break;
+                case RETURN:
+                    cbxAppointmentType.setSelectedIndex(1);
+                    break;
+            }
+        } else {
+            appointment.setAppointmentType(AppointmentTypeEnum.NORMAL);
+            cbxAppointmentType.setSelectedIndex(0);
+        }
+        
+        // ------------- Situação Pagamento
+        if (appointment.getPaymentStatus() != null) {
+            switch (appointment.getPaymentStatus()) {
+                case PENDING:
+                    cbxPaymentType.setSelectedIndex(0);
+                    break;
+                case CONFIRMED:
+                    cbxPaymentType.setSelectedIndex(1);
+                    break;
+            }
+        } else {
+            appointment.setPaymentStatus(PaymentStatusEnum.PENDING);
+            cbxPaymentType.setSelectedIndex(0);
+        }
+        
+        // ------------- Parcelas
+        if (appointment.getInstallments() == null) {
+            spnInstallments.setValue(0);
+        } else {
+            spnInstallments.setValue(appointment.getInstallments());
+        }
+        
+        // ------------- Valor
+        DecimalFormat dFormat = new DecimalFormat("#,###,###.00") ;
+        NumberFormatter formatter = new NumberFormatter(dFormat) ;
+        formatter.setFormat(dFormat) ;
+        formatter.setAllowsInvalid(false) ; 
+        
+        if (appointment.getTotalValue() == null) {
+            appointment.setTotalValue(0f);
+        }
+        
+        txtPrice.setFormatterFactory(new DefaultFormatterFactory ( formatter ));
+        txtPrice.setText(appointment.getTotalValue().toString());
+        
+        // ------------- Descricao
+        if (appointment.getDescription() == null) {
+            appointment.setDescription("");
+        }
+        
+        txtDescription.setText("");
     }
 
     /**
@@ -118,6 +201,8 @@ public class AppointmentForm extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel2 = new javax.swing.JPanel();
         lblHeader1 = new javax.swing.JLabel();
         errorPanel = new jdoctor.appointment.view.error.ErrorPanel();
         jPanel1 = new javax.swing.JPanel();
@@ -133,20 +218,29 @@ public class AppointmentForm extends javax.swing.JPanel {
         personTablePanel = new jdoctor.appointment.view.tables.StringTablePanel();
         form = new javax.swing.JPanel();
         lblUserNick = new javax.swing.JLabel();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
+        txtPrice = new javax.swing.JFormattedTextField();
         lblUserNick3 = new javax.swing.JLabel();
         cbxAppointmentType = new javax.swing.JComboBox<>();
         lblUserNick4 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        cbxPaymentType = new javax.swing.JComboBox<>();
         lblUserNick1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        txtDuration = new javax.swing.JTextField();
+        btnHourSub = new javax.swing.JButton();
+        btnHourAdd = new javax.swing.JButton();
+        lblUserNick5 = new javax.swing.JLabel();
+        spnInstallments = new javax.swing.JSpinner();
         actionsPanel = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
         btnSave = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        lblHeader2 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtDescription = new javax.swing.JTextArea();
 
         setLayout(new java.awt.GridBagLayout());
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 5));
+        jPanel2.setLayout(new java.awt.GridBagLayout());
 
         lblHeader1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         lblHeader1.setText("CONSULTA");
@@ -154,13 +248,13 @@ public class AppointmentForm extends javax.swing.JPanel {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(8, 0, 8, 0);
-        add(lblHeader1, gridBagConstraints);
+        jPanel2.add(lblHeader1, gridBagConstraints);
 
         javax.swing.GroupLayout errorPanelLayout = new javax.swing.GroupLayout(errorPanel);
         errorPanel.setLayout(errorPanelLayout);
         errorPanelLayout.setHorizontalGroup(
             errorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 428, Short.MAX_VALUE)
         );
         errorPanelLayout.setVerticalGroup(
             errorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -172,7 +266,7 @@ public class AppointmentForm extends javax.swing.JPanel {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-        add(errorPanel, gridBagConstraints);
+        jPanel2.add(errorPanel, gridBagConstraints);
 
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
@@ -284,7 +378,7 @@ public class AppointmentForm extends javax.swing.JPanel {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        add(jPanel1, gridBagConstraints);
+        jPanel2.add(jPanel1, gridBagConstraints);
 
         medicTablePanel.setPreferredSize(new java.awt.Dimension(460, 500));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -294,13 +388,13 @@ public class AppointmentForm extends javax.swing.JPanel {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
-        add(medicTablePanel, gridBagConstraints);
+        jPanel2.add(medicTablePanel, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 1.0;
-        add(personTablePanel, gridBagConstraints);
+        jPanel2.add(personTablePanel, gridBagConstraints);
 
         form.setLayout(new java.awt.GridBagLayout());
 
@@ -314,25 +408,29 @@ public class AppointmentForm extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 8, 8, 10);
         form.add(lblUserNick, gridBagConstraints);
+
+        txtPrice.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 0);
-        form.add(jFormattedTextField1, gridBagConstraints);
+        form.add(txtPrice, gridBagConstraints);
 
         lblUserNick3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lblUserNick3.setText("Valor Total");
+        lblUserNick3.setText("Parcelas");
         lblUserNick3.setPreferredSize(new java.awt.Dimension(100, 22));
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 10);
+        gridBagConstraints.insets = new java.awt.Insets(0, 8, 8, 10);
         form.add(lblUserNick3, gridBagConstraints);
 
         cbxAppointmentType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Normal", "Retorno" }));
+        cbxAppointmentType.setMinimumSize(new java.awt.Dimension(100, 20));
+        cbxAppointmentType.setPreferredSize(new java.awt.Dimension(100, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -352,7 +450,7 @@ public class AppointmentForm extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 8, 8, 10);
         form.add(lblUserNick4, gridBagConstraints);
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pendente", "Pago" }));
+        cbxPaymentType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pendente", "Pago" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 1;
@@ -360,7 +458,7 @@ public class AppointmentForm extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 0);
-        form.add(jComboBox2, gridBagConstraints);
+        form.add(cbxPaymentType, gridBagConstraints);
 
         lblUserNick1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblUserNick1.setText("Consulta");
@@ -372,23 +470,56 @@ public class AppointmentForm extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 10);
         form.add(lblUserNick1, gridBagConstraints);
+
+        txtDuration.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 0);
-        form.add(jTextField1, gridBagConstraints);
+        form.add(txtDuration, gridBagConstraints);
 
-        jButton1.setText("-");
+        btnHourSub.setText("-");
+        btnHourSub.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHourSubActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 7;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 0);
+        form.add(btnHourSub, gridBagConstraints);
+
+        btnHourAdd.setText("+");
+        btnHourAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHourAddActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 0);
-        form.add(jButton1, gridBagConstraints);
+        form.add(btnHourAdd, gridBagConstraints);
 
-        jButton2.setText("+");
+        lblUserNick5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblUserNick5.setText("Valor Total");
+        lblUserNick5.setPreferredSize(new java.awt.Dimension(100, 22));
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 10);
+        form.add(lblUserNick5, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 7;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 0);
-        form.add(jButton2, gridBagConstraints);
+        form.add(spnInstallments, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -396,7 +527,7 @@ public class AppointmentForm extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(9, 0, 9, 0);
-        add(form, gridBagConstraints);
+        jPanel2.add(form, gridBagConstraints);
 
         actionsPanel.setLayout(new java.awt.GridLayout(1, 0, 20, 0));
 
@@ -421,7 +552,40 @@ public class AppointmentForm extends javax.swing.JPanel {
         gridBagConstraints.gridy = 6;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(7, 0, 7, 0);
-        add(actionsPanel, gridBagConstraints);
+        jPanel2.add(actionsPanel, gridBagConstraints);
+
+        jTabbedPane1.addTab("Detalhes Consulta", jPanel2);
+
+        jPanel3.setLayout(new java.awt.GridBagLayout());
+
+        lblHeader2.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        lblHeader2.setText("ANOTAÇÕES");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(8, 0, 8, 0);
+        jPanel3.add(lblHeader2, gridBagConstraints);
+
+        txtDescription.setColumns(20);
+        txtDescription.setRows(5);
+        jScrollPane1.setViewportView(txtDescription);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(9, 9, 9, 9);
+        jPanel3.add(jScrollPane1, gridBagConstraints);
+
+        jTabbedPane1.addTab("Anotações", jPanel3);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        add(jTabbedPane1, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -449,30 +613,64 @@ public class AppointmentForm extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAddHourActionPerformed
 
     public void formToObject(Appointment appointment) throws ControllerException {
+        
+        // ----- Doutor 
         DoctorController doctorController = new DoctorController();
         if (medicTablePanel.getSelectedRow() != -1) {
             Doctor aux = doctorController.get(medicTablePanel.getId());
             appointment.setDoctor(aux);
         }
         
+        // ----- Pessoa 
         PersonController personController = new PersonController();
         if (personTablePanel.getSelectedRow() != -1) {
             Person aux = personController.get(personTablePanel.getId());
             appointment.setPerson(aux);
         }
         
+        // ----- Secreatria
+        appointment.setSecretary((Secretary) CurrentSession.getUser());
+        
+        // ----- Tipo consulta
         switch ((String) cbxAppointmentType.getSelectedItem()) {
             case "Normal":
-                //appointment.set
+                appointment.setAppointmentType(AppointmentTypeEnum.NORMAL);
                 break;
             case "Retorno":
+                appointment.setAppointmentType(AppointmentTypeEnum.RETURN);
                 break;
         }
+        
+        // ----- Preço
+        String price = txtPrice.getText();
+        price = price.replace(".", "");
+        price = price.replace(',', '.');
+        
+        appointment.setTotalValue(Float.parseFloat(price));
+        
+        // ----- Pagamento
+        switch ((String) cbxPaymentType.getSelectedItem()) {
+            case "Pendente":
+                appointment.setPaymentStatus(PaymentStatusEnum.PENDING);
+                break;
+            case "Pago":
+                appointment.setPaymentStatus(PaymentStatusEnum.CONFIRMED);
+                break;
+        }
+        
+        // ----- Parcelas
+        appointment.setInstallments((Integer) spnInstallments.getValue());
+        
+        // ----- Descricao
+        appointment.setDescription(txtDescription.getText());
+        
     }
     
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         controller = new AppointmentController();
         errorPanel.clean();
+        System.out.println(txtPrice.getText());
+        System.out.println(Float.parseFloat("222234.123"));
         try {
             formToObject(appointment);
             controller.save(appointment);
@@ -481,34 +679,56 @@ public class AppointmentForm extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
+    private void btnHourAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHourAddActionPerformed
+        appointment.setDuration(appointment.getDuration()+5);
+        hour.add(Calendar.MINUTE, +5);
+        txtDuration.setText(sdf.format(hour.getTime()));
+    }//GEN-LAST:event_btnHourAddActionPerformed
+
+    private void btnHourSubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHourSubActionPerformed
+        if (appointment.getDuration() > 5) {
+            appointment.setDuration(appointment.getDuration()-5);
+            hour.add(Calendar.MINUTE, -5);
+            txtDuration.setText(sdf.format(hour.getTime()));
+        }
+    }//GEN-LAST:event_btnHourSubActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel actionsPanel;
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnAddHour;
+    private javax.swing.JButton btnHourAdd;
+    private javax.swing.JButton btnHourSub;
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnSub;
     private javax.swing.JButton btnSubHour;
     private javax.swing.JComboBox<String> cbxAppointmentType;
+    private javax.swing.JComboBox<String> cbxPaymentType;
     private jdoctor.appointment.view.error.ErrorPanel errorPanel;
     private javax.swing.JPanel form;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lblData;
     private javax.swing.JLabel lblHeader1;
+    private javax.swing.JLabel lblHeader2;
     private javax.swing.JLabel lblHours;
     private javax.swing.JLabel lblUserNick;
     private javax.swing.JLabel lblUserNick1;
     private javax.swing.JLabel lblUserNick3;
     private javax.swing.JLabel lblUserNick4;
+    private javax.swing.JLabel lblUserNick5;
     private jdoctor.appointment.view.tables.StringTablePanel medicTablePanel;
     private jdoctor.appointment.view.tables.StringTablePanel personTablePanel;
+    private javax.swing.JSpinner spnInstallments;
     private javax.swing.JFormattedTextField txtData;
+    private javax.swing.JTextArea txtDescription;
+    private javax.swing.JTextField txtDuration;
     private javax.swing.JTextField txtHour;
+    private javax.swing.JFormattedTextField txtPrice;
     // End of variables declaration//GEN-END:variables
 }
