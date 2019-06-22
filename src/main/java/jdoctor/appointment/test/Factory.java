@@ -1,10 +1,13 @@
 package jdoctor.appointment.test;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import jdoctor.appointment.controller.DoctorController;
 import jdoctor.appointment.controller.PersonController;
 import jdoctor.appointment.controller.SecretaryController;
+import jdoctor.appointment.exception.ControllerException;
 import jdoctor.appointment.model.Doctor;
 import jdoctor.appointment.model.Person;
 import jdoctor.appointment.model.Secretary;
@@ -26,12 +29,12 @@ public class Factory {
             genPersons();
             genDoctors();
             genSecretary();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+        } catch (ControllerException ex) {
+            System.out.println(ex);
         }
     }
     
-    public static void genPersons() throws Exception {
+    public static void genPersons() throws ControllerException {
         PersonController personController = new PersonController();
         
         int num = 5;
@@ -51,7 +54,7 @@ public class Factory {
         }
     } 
     
-    public static void genDoctors() throws Exception {
+    public static void genDoctors() throws ControllerException {
         DoctorController controller = new DoctorController();
         
         int num = 3;
@@ -75,7 +78,7 @@ public class Factory {
         }
     } 
     
-    public static void genSecretary() throws Exception {
+    public static void genSecretary() throws ControllerException {
         SecretaryController controller = new SecretaryController();
         
         int num = 3;

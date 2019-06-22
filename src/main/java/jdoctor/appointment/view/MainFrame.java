@@ -2,6 +2,7 @@ package jdoctor.appointment.view;
 
 import com.jtattoo.plaf.smart.SmartLookAndFeel;
 import java.awt.CardLayout;
+import java.util.Calendar;
 import java.util.Properties;
 import javax.swing.UIManager;
 import jdoctor.appointment.controller.DocUserController;
@@ -187,6 +188,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         layout.show(this.getContentPane(), "cardAppointmentForm");
+        appointmentDateForm.setDate(Calendar.getInstance());
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**

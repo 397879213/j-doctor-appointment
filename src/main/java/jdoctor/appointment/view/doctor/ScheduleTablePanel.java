@@ -175,6 +175,7 @@ public class ScheduleTablePanel extends javax.swing.JPanel {
     }//GEN-LAST:event_btnUnmakeActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        System.out.println(dates);
         mainSchedule.save(dates, day);
     }//GEN-LAST:event_btnSaveActionPerformed
 

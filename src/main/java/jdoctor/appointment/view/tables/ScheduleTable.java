@@ -103,7 +103,7 @@ public class ScheduleTable extends AbstractTableModel {
         this.dates.set((rowIndex-1)*2+1, date2);
         
         this.dates.set(rowIndex*2, date11);
-        this.dates.set(rowIndex*2+1, date11);
+        this.dates.set(rowIndex*2+1, date22);
         
         fireTableDataChanged();
     }

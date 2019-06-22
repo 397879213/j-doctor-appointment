@@ -18,6 +18,17 @@ public class GuiUtils {
                            options[0]);
     }
     
+    public static boolean showYesNo(String message, Component component) {
+        int dialogResult = JOptionPane.showConfirmDialog (component, 
+                message,"Cuidado!",
+                JOptionPane.YES_NO_OPTION);
+        if(dialogResult == JOptionPane.YES_OPTION){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     public static void showConfirmOkDialog(String message, Component component) {
         Object[] options = {"OK"};
                 int n = JOptionPane.showOptionDialog(component,

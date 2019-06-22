@@ -5,17 +5,22 @@
  */
 package jdoctor.appointment.view.appointment;
 
+import java.awt.Color;
+
 /**
  *
  * @author aug
  */
 public class AppointmentPanel extends javax.swing.JPanel {
-
     /**
      * Creates new form DayPanel
      */
     public AppointmentPanel() {
         initComponents();
+    }
+    
+    public void setColor(Color color) {
+        this.setBackground(color);
     }
 
     /**
@@ -26,84 +31,12 @@ public class AppointmentPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
-
-        lblDoctor = new javax.swing.JLabel();
-        lblPacient = new javax.swing.JLabel();
-        lblStart = new javax.swing.JLabel();
-        lblEnd = new javax.swing.JLabel();
-        lblDoctorName = new javax.swing.JLabel();
-        lblPacientName = new javax.swing.JLabel();
-        lblStartDate = new javax.swing.JLabel();
-        lblEndDate = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(204, 255, 255));
         setLayout(new java.awt.GridBagLayout());
-
-        lblDoctor.setText("DOUTOR:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        add(lblDoctor, gridBagConstraints);
-
-        lblPacient.setText("PACIENTE:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        add(lblPacient, gridBagConstraints);
-
-        lblStart.setText("COMEÇO:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        add(lblStart, gridBagConstraints);
-
-        lblEnd.setText("FIM:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        add(lblEnd, gridBagConstraints);
-
-        lblDoctorName.setText("[doutor]");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(0, 6, 0, 0);
-        add(lblDoctorName, gridBagConstraints);
-
-        lblPacientName.setText("[paciente]");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(0, 6, 0, 0);
-        add(lblPacientName, gridBagConstraints);
-
-        lblStartDate.setText("[start date]");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.insets = new java.awt.Insets(0, 6, 0, 0);
-        add(lblStartDate, gridBagConstraints);
-
-        lblEndDate.setText("[end date]");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.insets = new java.awt.Insets(0, 6, 0, 0);
-        add(lblEndDate, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel lblDoctor;
-    private javax.swing.JLabel lblDoctorName;
-    private javax.swing.JLabel lblEnd;
-    private javax.swing.JLabel lblEndDate;
-    private javax.swing.JLabel lblPacient;
-    private javax.swing.JLabel lblPacientName;
-    private javax.swing.JLabel lblStart;
-    private javax.swing.JLabel lblStartDate;
     // End of variables declaration//GEN-END:variables
 }

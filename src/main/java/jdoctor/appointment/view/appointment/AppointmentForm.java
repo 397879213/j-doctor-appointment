@@ -57,9 +57,17 @@ public class AppointmentForm extends javax.swing.JPanel {
         dateF = new SimpleDateFormat("dd/MM/yyyy");
     }
     
-    public void setDate(Appointment appointment) {
+    public void setDate(Appointment appointment, Doctor selCalendarDoctor) {
         errorPanel.setVisible(false);
         this.appointment = appointment;
+        
+        System.out.println(appointment.getId()+"------");
+        // ---- ID
+        if (appointment.getId() == null) {
+            btnRemove.setEnabled(false);
+        } else {
+            btnRemove.setEnabled(true);
+        }
         
         // ------------- Data
         // Set data
@@ -68,28 +76,12 @@ public class AppointmentForm extends javax.swing.JPanel {
         txtHour.setText(sdf.format(appointment.getData().getTime()));
         
         // ------------- Doutor
-        Doctor selDoctor = null;
-        if (appointment.getDoctor() != null) {
-            selDoctor = appointment.getDoctor();
-            medicTablePanel.setHeader("Medico: "+selDoctor.getName());
-        } else {
-            medicTablePanel.setHeader("Medico");
+        if (appointment.getDoctor() == null) {
+            appointment.setDoctor(selCalendarDoctor);
         }
         
-        doctorController = new DoctorController();
-        ArrayList<ArrayList<String>> doctors = new ArrayList<>();
-        
-        try {
-            for (Doctor doctor : doctorController.getAll()) {
-                ArrayList<String> array = new ArrayList<>();
-                array.add(doctor.getId().toString());
-                array.add(doctor.getName());
-                doctors.add(array);
-            }
-        } catch (Exception e) {
-            GuiUtils.showErrorOkDialog(e.getMessage(), this);
-        }
-        medicTablePanel.setData(doctors);
+        lblMedic.setText("Medico: ["+appointment.getDoctor().getSpecialization()+"] "
+                +appointment.getDoctor().getName());
         
         // ------------- Pessoa
         Person selPerson = null;
@@ -177,11 +169,11 @@ public class AppointmentForm extends javax.swing.JPanel {
         formatter.setAllowsInvalid(false) ; 
         
         if (appointment.getTotalValue() == null) {
-            appointment.setTotalValue(0f);
+            appointment.setTotalValue(0.00f);
         }
         
         txtPrice.setFormatterFactory(new DefaultFormatterFactory ( formatter ));
-        txtPrice.setText(appointment.getTotalValue().toString());
+        txtPrice.setText((appointment.getTotalValue().toString()).replace(".",","));
         
         // ------------- Descricao
         if (appointment.getDescription() == null) {
@@ -214,7 +206,6 @@ public class AppointmentForm extends javax.swing.JPanel {
         btnSub = new javax.swing.JButton();
         btnSubHour = new javax.swing.JButton();
         btnAddHour = new javax.swing.JButton();
-        medicTablePanel = new jdoctor.appointment.view.tables.StringTablePanel();
         personTablePanel = new jdoctor.appointment.view.tables.StringTablePanel();
         form = new javax.swing.JPanel();
         lblUserNick = new javax.swing.JLabel();
@@ -230,8 +221,10 @@ public class AppointmentForm extends javax.swing.JPanel {
         lblUserNick5 = new javax.swing.JLabel();
         spnInstallments = new javax.swing.JSpinner();
         actionsPanel = new javax.swing.JPanel();
-        jButton3 = new javax.swing.JButton();
+        btnBack = new javax.swing.JButton();
+        btnRemove = new javax.swing.JToggleButton();
         btnSave = new javax.swing.JButton();
+        lblMedic = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         lblHeader2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -254,7 +247,7 @@ public class AppointmentForm extends javax.swing.JPanel {
         errorPanel.setLayout(errorPanelLayout);
         errorPanelLayout.setHorizontalGroup(
             errorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 428, Short.MAX_VALUE)
+            .addGap(0, 533, Short.MAX_VALUE)
         );
         errorPanelLayout.setVerticalGroup(
             errorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -379,16 +372,6 @@ public class AppointmentForm extends javax.swing.JPanel {
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel2.add(jPanel1, gridBagConstraints);
-
-        medicTablePanel.setPreferredSize(new java.awt.Dimension(460, 500));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
-        jPanel2.add(medicTablePanel, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -531,13 +514,21 @@ public class AppointmentForm extends javax.swing.JPanel {
 
         actionsPanel.setLayout(new java.awt.GridLayout(1, 0, 20, 0));
 
-        jButton3.setText("Voltar");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnBack.setText("Voltar");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnBackActionPerformed(evt);
             }
         });
-        actionsPanel.add(jButton3);
+        actionsPanel.add(btnBack);
+
+        btnRemove.setText("Deletar");
+        btnRemove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoveActionPerformed(evt);
+            }
+        });
+        actionsPanel.add(btnRemove);
 
         btnSave.setText("Salvar");
         btnSave.addActionListener(new java.awt.event.ActionListener() {
@@ -553,6 +544,17 @@ public class AppointmentForm extends javax.swing.JPanel {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(7, 0, 7, 0);
         jPanel2.add(actionsPanel, gridBagConstraints);
+
+        lblMedic.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblMedic.setText("Medico: ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(6, 0, 6, 0);
+        jPanel2.add(lblMedic, gridBagConstraints);
 
         jTabbedPane1.addTab("Detalhes Consulta", jPanel2);
 
@@ -588,9 +590,9 @@ public class AppointmentForm extends javax.swing.JPanel {
         add(jTabbedPane1, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         main.switchCalendar();
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         appointment.getData().add(Calendar.DAY_OF_MONTH, +1);
@@ -613,13 +615,6 @@ public class AppointmentForm extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAddHourActionPerformed
 
     public void formToObject(Appointment appointment) throws ControllerException {
-        
-        // ----- Doutor 
-        DoctorController doctorController = new DoctorController();
-        if (medicTablePanel.getSelectedRow() != -1) {
-            Doctor aux = doctorController.get(medicTablePanel.getId());
-            appointment.setDoctor(aux);
-        }
         
         // ----- Pessoa 
         PersonController personController = new PersonController();
@@ -693,13 +688,28 @@ public class AppointmentForm extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnHourSubActionPerformed
 
+    private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
+        try {
+            if (GuiUtils.showYesNo("Tem certeza que deseja remover?", this)) {
+                controller = new AppointmentController();
+                controller.remove(appointment.getId());
+                GuiUtils.showConfirmOkDialog("Removido com sucesso!", this);
+                main.switchCalendar();
+            }
+        } catch (ControllerException ex) {
+            GuiUtils.showErrorOkDialog(ex.getMessage(), this);
+        }
+    }//GEN-LAST:event_btnRemoveActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel actionsPanel;
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnAddHour;
+    private javax.swing.JButton btnBack;
     private javax.swing.JButton btnHourAdd;
     private javax.swing.JButton btnHourSub;
+    private javax.swing.JToggleButton btnRemove;
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnSub;
     private javax.swing.JButton btnSubHour;
@@ -707,7 +717,6 @@ public class AppointmentForm extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> cbxPaymentType;
     private jdoctor.appointment.view.error.ErrorPanel errorPanel;
     private javax.swing.JPanel form;
-    private javax.swing.JButton jButton3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -717,12 +726,12 @@ public class AppointmentForm extends javax.swing.JPanel {
     private javax.swing.JLabel lblHeader1;
     private javax.swing.JLabel lblHeader2;
     private javax.swing.JLabel lblHours;
+    private javax.swing.JLabel lblMedic;
     private javax.swing.JLabel lblUserNick;
     private javax.swing.JLabel lblUserNick1;
     private javax.swing.JLabel lblUserNick3;
     private javax.swing.JLabel lblUserNick4;
     private javax.swing.JLabel lblUserNick5;
-    private jdoctor.appointment.view.tables.StringTablePanel medicTablePanel;
     private jdoctor.appointment.view.tables.StringTablePanel personTablePanel;
     private javax.swing.JSpinner spnInstallments;
     private javax.swing.JFormattedTextField txtData;

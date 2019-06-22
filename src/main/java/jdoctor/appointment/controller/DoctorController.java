@@ -45,7 +45,7 @@ public class DoctorController implements ControllerInterface<Doctor> {
     @Override
     public void save(Doctor object) throws ControllerException {
         if (isObjectValid(object)) {
-            
+                     
             // Trata senha
             if (object.getPasswordSalt() == null || object.getPasswordSalt().isEmpty()) {
                 object.setPasswordSalt(PasswordUtils.getSalt());

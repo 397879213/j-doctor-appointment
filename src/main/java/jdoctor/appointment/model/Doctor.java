@@ -15,7 +15,6 @@ import lombok.ToString;
 
 @Entity
 @PrimaryKeyJoinColumn(name="id")
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class Doctor extends DocUser {
@@ -27,6 +26,10 @@ public class Doctor extends DocUser {
     private AvailableSchedule availableSchedule;
     
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
-    @ToString.Exclude
     private List<Appointment> appointments;
+    
+    @Override
+    public String toString() {
+        return "["+this.getSpecialization()+"] "+this.getName();
+    }
 }
