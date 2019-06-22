@@ -102,7 +102,7 @@ public class DayPanel extends javax.swing.JPanel {
             Integer minute = (ap.get(Calendar.MINUTE)+
                     ap.get(Calendar.HOUR_OF_DAY)*60)/5;
             
-            Color color = new Color(200, Math.round((288*minute)/255),200);
+            Color color = new Color(200, Math.round((255*minute)/288),200);
             panel.setColor(color);
             
             Integer posy = Math.round((minute*panelAppointments.getHeight())/288);
@@ -112,7 +112,6 @@ public class DayPanel extends javax.swing.JPanel {
             ap2.setTime(schedule.get(i+1));
             Integer duration = ap2.get(Calendar.HOUR_OF_DAY)*60+ap2.get(Calendar.MINUTE);
             duration -= ap.get(Calendar.HOUR_OF_DAY)*60+ap.get(Calendar.MINUTE);
-            System.out.println(duration);
             
             Integer heigth = Math.round(((duration/5)*panelAppointments.getHeight())/288);
             
@@ -141,7 +140,7 @@ public class DayPanel extends javax.swing.JPanel {
             Integer minute = ((ap.getData()).get(Calendar.MINUTE)+
                     (ap.getData()).get(Calendar.HOUR_OF_DAY)*60)/5;
             
-            Color color = new Color(Math.round((288*minute)/255),175,150);
+            Color color = new Color(Math.round((255*minute)/288),175,150);
             panel.setColor(color);
             
             Integer posy = Math.round((minute*panelAppointments.getHeight())/288);

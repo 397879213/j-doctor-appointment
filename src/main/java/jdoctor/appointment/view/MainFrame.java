@@ -89,6 +89,7 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         menuDoctor = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(400, 500));
@@ -166,6 +167,15 @@ public class MainFrame extends javax.swing.JFrame {
         });
         menuDoctor.add(jMenuItem2);
 
+        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/event_icon.gif"))); // NOI18N
+        jMenuItem4.setText("Minhas Consultas");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        menuDoctor.add(jMenuItem4);
+
         menuBar.add(menuDoctor);
 
         setJMenuBar(menuBar);
@@ -190,6 +200,11 @@ public class MainFrame extends javax.swing.JFrame {
         layout.show(this.getContentPane(), "cardAppointmentForm");
         appointmentDateForm.setDate(Calendar.getInstance());
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        layout.show(this.getContentPane(), "cardAppointmentForm");
+        appointmentDateForm.setDate(Calendar.getInstance());
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -241,6 +256,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
     private jdoctor.appointment.view.docuser.MainLoginPanel mainLoginPanel;
     private javax.swing.JMenuBar menuBar;

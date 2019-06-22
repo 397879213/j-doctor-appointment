@@ -37,6 +37,7 @@ public class AppointmentMain extends javax.swing.JPanel {
         initComponents();
         
         appointmentForm.setMain(this);
+        doctorAppointmentView.setMain(this);
         
         layout = (CardLayout) cardPanel.getLayout();
         
@@ -51,17 +52,6 @@ public class AppointmentMain extends javax.swing.JPanel {
             }
             timesPanel.add(label);
         }
-        
-        // ---- Doutores
-        DoctorController controller = new DoctorController();
-        List<Doctor> doctors = new ArrayList<Doctor>();
-        try {
-            doctors = new ArrayList<Doctor>(controller.getAll());
-        } catch (ControllerException ex) {
-            GuiUtils.showErrorOkDialog("Falha ao obter doutores", this);
-        }
-        
-        cbxDoctors.setModel(new DefaultComboBoxModel(doctors.toArray()));
     }
     
     public void switchCalendar() {
@@ -72,12 +62,22 @@ public class AppointmentMain extends javax.swing.JPanel {
     }
     
     public void switchForm(Appointment appointment) {
-        if (doctor != null) {
-             appointmentForm.setDate(appointment, doctor);
-             layout.show(cardPanel, "cardForm");
-             medicSelectPanel.setVisible(false);
-        } else {
-            GuiUtils.showErrorOkDialog("Você deve selecionar um doutor", this);
+        if (CurrentSession.getUser().getClass() == Secretary.class) {
+            if (doctor != null) {
+                 appointmentForm.setDate(appointment, doctor);
+                 layout.show(cardPanel, "cardForm");
+                 medicSelectPanel.setVisible(false);
+            } else {
+                GuiUtils.showErrorOkDialog("Você deve selecionar um doutor", this);
+            }
+        } else if (CurrentSession.getUser().getClass() == Doctor.class) {
+            if (appointment.getId() != null) {
+                doctorAppointmentView.setDate(appointment);
+                layout.show(cardPanel, "cardDoctorView");
+                medicSelectPanel.setVisible(false);
+            } else {
+                GuiUtils.showErrorOkDialog("Você deve selecionar uma consulta valida", this);
+            }
         }
     }
     
@@ -150,6 +150,9 @@ public class AppointmentMain extends javax.swing.JPanel {
         scrollUserPanel = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
         appointmentForm = new jdoctor.appointment.view.appointment.AppointmentForm();
+        scrollDoctorView = new javax.swing.JScrollPane();
+        jPanel4 = new javax.swing.JPanel();
+        doctorAppointmentView = new jdoctor.appointment.view.appointment.DoctorAppointmentView();
 
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
@@ -271,6 +274,20 @@ public class AppointmentMain extends javax.swing.JPanel {
 
         cardPanel.add(scrollUserPanel, "cardForm");
 
+        jPanel4.setPreferredSize(new java.awt.Dimension(460, 680));
+        jPanel4.setLayout(new java.awt.GridBagLayout());
+
+        doctorAppointmentView.setMinimumSize(new java.awt.Dimension(470, 437));
+        doctorAppointmentView.setPreferredSize(new java.awt.Dimension(470, 700));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.weighty = 1.0;
+        jPanel4.add(doctorAppointmentView, gridBagConstraints);
+
+        scrollDoctorView.setViewportView(jPanel4);
+
+        cardPanel.add(scrollDoctorView, "cardDoctorView");
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -291,10 +308,26 @@ public class AppointmentMain extends javax.swing.JPanel {
     }//GEN-LAST:event_btnRightActionPerformed
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        // ---- Doutores
+        DoctorController controller = new DoctorController();
+        List<Doctor> doctors = new ArrayList<Doctor>();
+        try {
+            doctors = new ArrayList<Doctor>(controller.getAll());
+        } catch (ControllerException ex) {
+            GuiUtils.showErrorOkDialog("Falha ao obter doutores", this);
+        }
+        
+        cbxDoctors.setModel(new DefaultComboBoxModel(doctors.toArray()));
+        
         if (CurrentSession.getUser().getClass() == Secretary.class) {
             medicSelectPanel.setVisible(true);
         } else {
             medicSelectPanel.setVisible(false);
+        }
+        
+        if (CurrentSession.getUser().getClass() == Doctor.class) {
+            doctor = (Doctor) CurrentSession.getUser();
+            setDate(day);
         }
     }//GEN-LAST:event_formComponentShown
 
@@ -312,12 +345,15 @@ public class AppointmentMain extends javax.swing.JPanel {
     private javax.swing.JPanel calendarPanel;
     private javax.swing.JPanel cardPanel;
     private javax.swing.JComboBox<String> cbxDoctors;
+    private jdoctor.appointment.view.appointment.DoctorAppointmentView doctorAppointmentView;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel medicSelectPanel;
     private javax.swing.JPanel panelDays;
+    private javax.swing.JScrollPane scrollDoctorView;
     private javax.swing.JScrollPane scrollUserPanel;
     private javax.swing.JPanel timesPanel;
     // End of variables declaration//GEN-END:variables

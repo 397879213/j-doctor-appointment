@@ -3,6 +3,8 @@ package jdoctor.appointment.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.ElementCollection;
@@ -47,40 +49,80 @@ public class AvailableSchedule implements Serializable {
     @OneToOne(mappedBy = "availableSchedule")
     private Doctor doctor;
     
-    @Getter @Setter
+    private List<Date> orderDate(List<Date> dates) {
+        List<Date> aux = new ArrayList<Date>(dates);
+        
+        Collections.sort(aux, new Comparator<Date>() {
+            public int compare(Date o1, Date o2) {
+                return (o1.compareTo(o2));
+            }
+        });
+        
+        return aux;
+    }
+    
+    @Setter
     @ElementCollection(targetClass=Date.class)
     @Temporal(TemporalType.TIMESTAMP)
     private List<Date> onMonday;
     
-    @Getter @Setter
+    public List<Date> getOnMonday() {
+        return orderDate(onMonday);
+    }
+    
+    @Setter
     @ElementCollection(targetClass=Date.class)
     @Temporal(TemporalType.TIMESTAMP)
     private List<Date> onTuesday;
     
-    @Getter @Setter
+    public List<Date> getOnTuesday() {
+        return orderDate(onTuesday);
+    }
+    
+    @Setter
     @ElementCollection(targetClass=Date.class)
     @Temporal(TemporalType.TIMESTAMP)
     private List<Date> onWednesday;
     
-    @Getter @Setter
+    public List<Date> getOnWednesday() {
+        return orderDate(onWednesday);
+    }
+    
+    @Setter
     @ElementCollection(targetClass=Date.class)
     @Temporal(TemporalType.TIMESTAMP)
     private List<Date> onThursday;
     
-    @Getter @Setter
+    public List<Date> getOnThursday() {
+        return orderDate(onThursday);
+    }
+    
+    @Setter
     @ElementCollection(targetClass=Date.class)
     @Temporal(TemporalType.TIMESTAMP)
     private List<Date> onFriday;
     
-    @Getter @Setter
+    public List<Date> getOnFriday() {
+        return orderDate(onFriday);
+    }
+    
+    @Setter
     @ElementCollection(targetClass=Date.class)
     @Temporal(TemporalType.TIMESTAMP)
     private List<Date> onSaturday;
     
-    @Getter @Setter
+    public List<Date> getOnSaturday() {
+        return orderDate(onSaturday);
+    }
+    
+    @Setter
     @ElementCollection(targetClass=Date.class)
     @Temporal(TemporalType.TIMESTAMP)
     private List<Date> onSunday;
+    
+    public List<Date> getOnSunday() {
+        return orderDate(onSunday);
+    }
     
     @Getter @Setter
     @ElementCollection(targetClass=Calendar.class)

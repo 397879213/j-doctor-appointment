@@ -20,6 +20,15 @@ public class PersonFormPanel extends GenericFormPanel {
         }
     }
     
+    public void setViewMode() {
+        lblHeaderUser1.setText("Paciente");
+        txtName.setEditable(false);
+        txtDocCPF.setEditable(false);
+        txtDocRG.setEditable(false);
+        txtPhone.setEditable(false);
+        txtEmail.setEditable(false);
+    }
+    
     @Override 
     public void setForm(Object entity) {
         Person person;

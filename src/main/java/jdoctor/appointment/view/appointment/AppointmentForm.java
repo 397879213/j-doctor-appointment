@@ -57,7 +57,7 @@ public class AppointmentForm extends javax.swing.JPanel {
         dateF = new SimpleDateFormat("dd/MM/yyyy");
     }
     
-    public void setDate(Appointment appointment, Doctor selCalendarDoctor) {
+    public void setDate(Appointment appointment, Doctor selCalendarDoctor) {      
         errorPanel.setVisible(false);
         this.appointment = appointment;
         
