@@ -36,4 +36,8 @@ public class DocUser extends Person implements Serializable {
     @ElementCollection(targetClass=UserRolesEnum.class)
     @Getter @Setter
     private Set<UserRolesEnum> roles;
+    
+    public boolean roleCheck(UserRolesEnum role) {
+        return roles.contains(role);
+    }
 }

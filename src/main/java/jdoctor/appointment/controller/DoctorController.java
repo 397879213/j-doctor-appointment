@@ -56,7 +56,6 @@ public class DoctorController implements ControllerInterface<Doctor> {
             // Trata Permissões iniciais
             if (object.getRoles() == null || object.getRoles().isEmpty()) {
                Set<UserRolesEnum> roles = new HashSet<>();
-               roles.add(UserRolesEnum.EDIT_APPOINTMENT);
 
                if (docUserController.getAll().isEmpty()) {
                    roles.add(UserRolesEnum.ADMIN);

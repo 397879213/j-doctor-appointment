@@ -36,12 +36,15 @@ public class UserFormPanel extends GenericFormPanel {
             return;
         }
         
-        if (!pasConfirm.getText().equals(pasPassword.getText())) {
-            throw new VisionException("Senhas não coincidem");
-        }
-        
         docUser.setUserNick(txtUserNick.getText());
-        docUser.setPassword(pasPassword.getText());
+        if (docUser.getPassword() == null || pasPassword.getText().length() > 0) {
+            if (!pasConfirm.getText().equals(pasPassword.getText())) {
+                throw new VisionException("Senhas não coincidem");
+            }
+
+            docUser.setPassword(pasPassword.getText());
+            docUser.setPasswordSalt(null);
+        }
     }
 
     

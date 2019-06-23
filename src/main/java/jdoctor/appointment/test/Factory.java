@@ -47,8 +47,9 @@ public class Factory {
         
         for (int i = 0; i < num; i++ ) {
             Person person = new Person(
-                    names.get(i), names.get(i)+"@gmail.com", "(11) 1111-1111", 
-                    "22222222222", "622.813.920-74");
+                    names.get(i), names.get(i)+"@gmail.com", null, 
+                    "35.322.518-6", "622.813.920-74");
+            person.setPhoneNumber("(33) 11111-1111");
             
             personController.save(person);
         }
