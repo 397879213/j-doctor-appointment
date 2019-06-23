@@ -1,5 +1,7 @@
 package jdoctor.appointment.view.system;
 
+import java.util.Calendar;
+import jdoctor.appointment.model.Person;
 import jdoctor.appointment.view.MainFrame;
 import lombok.Setter;
 
@@ -13,6 +15,19 @@ public class HomePanel extends javax.swing.JPanel {
     public HomePanel() {
         initComponents();
     }
+    
+    public void setWelcomeMessage(Person person) {
+        Calendar aux = Calendar.getInstance();
+        
+        Integer hour = aux.get(Calendar.HOUR_OF_DAY);
+        if (hour <= 12 && hour >= 5) {
+            lblDay.setText("Bom dia "+person.getName()+"!");
+        } else if(hour > 12 && hour <=18) {
+            lblDay.setText("Boa tarde "+person.getName()+"!");
+        } else {
+            lblDay.setText("Boa noite "+person.getName()+"!");
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -22,17 +37,27 @@ public class HomePanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
-        jLabel1 = new javax.swing.JLabel();
+        lblDay = new javax.swing.JLabel();
+        logoPanel1 = new jdoctor.appointment.view.misc.LogoPanel();
 
         setLayout(new java.awt.GridBagLayout());
 
-        jLabel1.setText("jLabel1");
-        add(jLabel1, new java.awt.GridBagConstraints());
+        lblDay.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblDay.setText("jLabel1");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        add(lblDay, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 13, 0);
+        add(logoPanel1, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel lblDay;
+    private jdoctor.appointment.view.misc.LogoPanel logoPanel1;
     // End of variables declaration//GEN-END:variables
 }

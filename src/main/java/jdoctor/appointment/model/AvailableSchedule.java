@@ -34,7 +34,6 @@ public class AvailableSchedule implements Serializable {
     public AvailableSchedule(Integer id, Doctor doctor) {
         this.id = id;
         this.doctor = doctor;
-        this.daysOff = new ArrayList<>();
  
         this.onMonday = new ArrayList<>();
         this.onTuesday = new ArrayList<>();
@@ -123,9 +122,4 @@ public class AvailableSchedule implements Serializable {
     public List<Date> getOnSunday() {
         return orderDate(onSunday);
     }
-    
-    @Getter @Setter
-    @ElementCollection(targetClass=Calendar.class)
-    @Temporal(TemporalType.TIMESTAMP)
-    private List<Calendar> daysOff;
 }

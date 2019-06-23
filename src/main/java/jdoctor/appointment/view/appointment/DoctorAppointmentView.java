@@ -85,10 +85,10 @@ public class DoctorAppointmentView extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(18, 0, 18, 0);
         add(lblSecretaryName, gridBagConstraints);
 
-        jPanel1.setLayout(new java.awt.GridLayout());
+        jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
         lblStart.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lblStart.setText("Fim:");
+        lblStart.setText("Inicio:");
         jPanel1.add(lblStart);
 
         lblStartTime.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -96,7 +96,7 @@ public class DoctorAppointmentView extends javax.swing.JPanel {
         jPanel1.add(lblStartTime);
 
         lblStart3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lblStart3.setText("Inicio: ");
+        lblStart3.setText("Fim:");
         jPanel1.add(lblStart3);
 
         lblEndTime.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -155,7 +155,7 @@ public class DoctorAppointmentView extends javax.swing.JPanel {
         gridBagConstraints.weighty = 1.0;
         add(jScrollPane1, gridBagConstraints);
 
-        btnActions.setLayout(new java.awt.GridLayout());
+        btnActions.setLayout(new java.awt.GridLayout(1, 0));
 
         Voltar.setText("Voltar");
         Voltar.addActionListener(new java.awt.event.ActionListener() {

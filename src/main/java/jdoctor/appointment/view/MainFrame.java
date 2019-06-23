@@ -69,6 +69,7 @@ public class MainFrame extends javax.swing.JFrame {
             menuAdmin.setVisible(false);
         }
         
+        homePanel.setWelcomeMessage(currentUser);
         switchHome();
     }
     
@@ -100,7 +101,7 @@ public class MainFrame extends javax.swing.JFrame {
         appointmentDateForm = new jdoctor.appointment.view.appointment.AppointmentMain();
         secretaryManage = new javax.swing.JScrollPane();
         jPanel2 = new javax.swing.JPanel();
-        secretaryTableView = new jdoctor.appointment.view.person.PersonTableView();
+        genericTableView = new jdoctor.appointment.view.person.PersonTableView();
         menuBar = new javax.swing.JMenuBar();
         menuSystem = new javax.swing.JMenu();
         menuItemHome = new javax.swing.JMenuItem();
@@ -108,6 +109,7 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         menuSecretary = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
         menuDoctor = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
@@ -142,7 +144,7 @@ public class MainFrame extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.weighty = 1.0;
-        jPanel2.add(secretaryTableView, gridBagConstraints);
+        jPanel2.add(genericTableView, gridBagConstraints);
 
         secretaryManage.setViewportView(jPanel2);
 
@@ -187,6 +189,15 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         menuSecretary.add(jMenuItem3);
+
+        jMenuItem8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pencil.png"))); // NOI18N
+        jMenuItem8.setText("Gerenciar pacientes");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        menuSecretary.add(jMenuItem8);
 
         menuBar.add(menuSecretary);
 
@@ -275,9 +286,9 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         SecretaryController controller = new SecretaryController();
-        secretaryTableView.setHeader("Secretario(a)");
+        genericTableView.setHeader("Secretario(a)");
         try {
-            secretaryTableView.setData(new ArrayList<>(controller.getAll()), Secretary.class);
+            genericTableView.setData(new ArrayList<>(controller.getAll()), Secretary.class);
             layout.show(this.getContentPane(), "adminSecretary");
         } catch (ControllerException ex) {
             GuiUtils.showErrorOkDialog("Erro ao obter secreatrias", this);
@@ -286,9 +297,9 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
         PersonController controller = new PersonController();
-        secretaryTableView.setHeader("Pacientes");
+        genericTableView.setHeader("Pacientes");
         try {
-            secretaryTableView.setData(new ArrayList<>(controller.getAll()), Person.class);
+            genericTableView.setData(new ArrayList<>(controller.getAll()), Person.class);
             layout.show(this.getContentPane(), "adminSecretary");
         } catch (ControllerException ex) {
             GuiUtils.showErrorOkDialog("Erro ao obter medicos", this);
@@ -297,14 +308,25 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         DoctorController controller = new DoctorController();
-        secretaryTableView.setHeader("Medico(a)");
+        genericTableView.setHeader("Medico(a)");
         try {
-            secretaryTableView.setData(new ArrayList<>(controller.getAll()), Doctor.class);
+            genericTableView.setData(new ArrayList<>(controller.getAll()), Doctor.class);
             layout.show(this.getContentPane(), "adminSecretary");
         } catch (ControllerException ex) {
             GuiUtils.showErrorOkDialog("Erro ao obter medicos", this);
         }
     }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        PersonController controller = new PersonController();
+        genericTableView.setHeader("Pacientes");
+        try {
+            genericTableView.setData(new ArrayList<>(controller.getAll()), Person.class);
+            layout.show(this.getContentPane(), "adminSecretary");
+        } catch (ControllerException ex) {
+            GuiUtils.showErrorOkDialog("Erro ao obter medicos", this);
+        }
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -352,6 +374,7 @@ public class MainFrame extends javax.swing.JFrame {
     private jdoctor.appointment.view.appointment.AppointmentMain appointmentDateForm;
     private jdoctor.appointment.view.docuser.DocUserPanel docUserPanel;
     private jdoctor.appointment.view.doctor.EditSchedulePanel editSchedulePanel1;
+    private jdoctor.appointment.view.person.PersonTableView genericTableView;
     private jdoctor.appointment.view.system.HomePanel homePanel;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
@@ -360,6 +383,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private jdoctor.appointment.view.docuser.MainLoginPanel mainLoginPanel;
@@ -372,6 +396,5 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenu menuUser;
     private javax.swing.JScrollPane scrollUserPanel;
     private javax.swing.JScrollPane secretaryManage;
-    private jdoctor.appointment.view.person.PersonTableView secretaryTableView;
     // End of variables declaration//GEN-END:variables
 }

@@ -6,7 +6,12 @@
 package jdoctor.appointment.view.person;
 
 import java.awt.CardLayout;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.persistence.EntityManager;
 import jdoctor.appointment.controller.DoctorController;
 import jdoctor.appointment.controller.PersonController;
 import jdoctor.appointment.controller.SecretaryController;
@@ -16,8 +21,13 @@ import jdoctor.appointment.model.DocUser;
 import jdoctor.appointment.model.Doctor;
 import jdoctor.appointment.model.Person;
 import jdoctor.appointment.model.Secretary;
+import jdoctor.appointment.util.Connection;
 import jdoctor.appointment.util.GuiUtils;
 import jdoctor.appointment.view.tables.PersonTable;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -81,6 +91,7 @@ public class PersonTableView extends javax.swing.JPanel {
         btnRemove = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setLayout(new java.awt.CardLayout());
 
@@ -217,6 +228,14 @@ public class PersonTableView extends javax.swing.JPanel {
             }
         });
         btnActions.add(jButton3);
+
+        jButton1.setText("Relatorio");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        btnActions.add(jButton1);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -356,6 +375,22 @@ public class PersonTableView extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_cardFormComponentShown
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+        Path path = Paths.get("src", "main", "resources", "report", "medicReport.jasper");
+        
+        JasperPrint jasperPrint = null;
+        
+        /**
+        try {
+            jasperPrint = JasperFillManager.fillReport(path.toString(), null, Connection.getConnectionC());
+            JasperViewer view = new JasperViewer(jasperPrint, false);
+            view.setVisible(true);
+        } catch (JRException ex) {
+            GuiUtils.showErrorOkDialog("Falha ao gerar relatorio "+ex.getMessage(), this);
+        }**/
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel btnActions;
@@ -365,6 +400,7 @@ public class PersonTableView extends javax.swing.JPanel {
     private javax.swing.JButton btnSave;
     private javax.swing.JPanel cardForm;
     private javax.swing.JPanel formActions;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

@@ -1,6 +1,10 @@
 package jdoctor.appointment.test;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -8,6 +12,7 @@ import jdoctor.appointment.controller.DoctorController;
 import jdoctor.appointment.controller.PersonController;
 import jdoctor.appointment.controller.SecretaryController;
 import jdoctor.appointment.exception.ControllerException;
+import jdoctor.appointment.model.AvailableSchedule;
 import jdoctor.appointment.model.Doctor;
 import jdoctor.appointment.model.Person;
 import jdoctor.appointment.model.Secretary;
@@ -74,6 +79,30 @@ public class Factory {
             doctor.setPhoneNumber("(33) 11111-1111");
             doctor.setSpecialization("Test");
             doctor.setUserNick("doc"+i);
+            
+            Random r = new Random();
+            
+            List<Date> workDates = new ArrayList<>();
+            Calendar aux = Calendar.getInstance();
+            aux.set(Calendar.HOUR_OF_DAY, r.nextInt((10 - 6) + 1)+6);
+            aux.set(Calendar.MINUTE, 0);
+            aux.set(Calendar.SECOND, 0);
+            
+            workDates.add(aux.getTime());
+            aux.set(Calendar.HOUR_OF_DAY, r.nextInt((12 - 9) + 1)+9);
+            workDates.add(aux.getTime());
+            
+            aux.set(Calendar.HOUR_OF_DAY, r.nextInt((15 - 13) + 1)+13);
+            workDates.add(aux.getTime());
+            
+            aux.set(Calendar.HOUR_OF_DAY, r.nextInt((22 - 16) + 1)+16);
+            workDates.add(aux.getTime());
+            
+            AvailableSchedule schedule = new AvailableSchedule(null, doctor, 
+                    workDates, workDates, workDates, workDates, workDates, 
+                    new ArrayList<>(), new ArrayList<>());
+            
+            doctor.setAvailableSchedule(schedule);
             
             controller.save(doctor);
         }

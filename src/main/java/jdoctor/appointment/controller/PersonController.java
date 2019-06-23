@@ -1,5 +1,6 @@
 package jdoctor.appointment.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import jdoctor.appointment.dao.PersonDAO;
 import jdoctor.appointment.exception.ControllerException;
@@ -54,7 +55,14 @@ public class PersonController implements ControllerInterface<Person> {
 
     @Override
     public List<Person> getAll() throws ControllerException {
-        return dao.findAll();
+        List<Person> persons = new ArrayList<>();
+        
+        for (Person p : dao.findAll()) {
+            if (p.getClass() == Person.class) {
+                persons.add(p);
+            }
+        }
+        return persons;
     }
     
     public Person get(Integer id) throws ControllerException {

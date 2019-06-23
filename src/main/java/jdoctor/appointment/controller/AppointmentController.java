@@ -67,7 +67,9 @@ public class AppointmentController implements ControllerInterface<Appointment>{
             case 7: dates = new ArrayList<>(schedule.getOnSaturday()); break;
         }
         
-        for(int i = 0; i < dates.size()/2; i+= 2) {
+        for(int i = 0; i <= dates.size()/2; i+= 2) {
+            System.out.println(dates.get(i));
+            System.out.println(dates.get(i+1));
             Calendar aux = Calendar.getInstance();
             
             aux.setTime(dates.get(i));
@@ -78,10 +80,16 @@ public class AppointmentController implements ControllerInterface<Appointment>{
             Integer end = aux.get(Calendar.HOUR_OF_DAY)*60 
                     + aux.get(Calendar.MINUTE);
             
-            Integer appointmentStart = (object.getData()).get(Calendar.HOUR)*60
+            Integer appointmentStart = (object.getData()).get(Calendar.HOUR_OF_DAY)*60
                     + (object.getData()).get(Calendar.MINUTE);
             
             Integer appointmentEnd = appointmentStart + object.getDuration();
+            
+            //System.out.println("INICIO "+dates.get(0)+"----"+start);
+            //System.out.println("FINAL  "+dates.get(1)+"----"+end);
+            //System.out.println("=====");
+            //System.out.println("A INIC "+appointmentStart);
+            //System.out.println("A END  "+appointmentEnd);
             
             if (appointmentStart >= start && appointmentEnd <= end) {
                 return true;

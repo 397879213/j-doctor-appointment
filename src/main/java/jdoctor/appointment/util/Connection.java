@@ -3,6 +3,8 @@ package jdoctor.appointment.util;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import org.eclipse.persistence.internal.jpa.EntityManagerImpl;
+import org.eclipse.persistence.sessions.Session;
 
 
 public class Connection {
@@ -20,4 +22,12 @@ public class Connection {
         
         return em;
     } 
+    
+    public static java.sql.Connection getConnectionC() {
+        try {
+            return ((EntityManagerImpl) (em.getDelegate())).getServerSession().getAccessor().getConnection();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }
