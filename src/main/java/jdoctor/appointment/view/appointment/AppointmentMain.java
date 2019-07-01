@@ -121,8 +121,8 @@ public class AppointmentMain extends javax.swing.JPanel {
                 GuiUtils.showErrorOkDialog(ex.getMessage(), this);
             }
         }
-        panelDays.revalidate();
-        panelDays.repaint();
+        this.revalidate();
+        this.repaint();
     }
     
     /**
@@ -155,6 +155,9 @@ public class AppointmentMain extends javax.swing.JPanel {
         doctorAppointmentView = new jdoctor.appointment.view.appointment.DoctorAppointmentView();
 
         addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                formComponentResized(evt);
+            }
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 formComponentShown(evt);
             }
@@ -335,6 +338,10 @@ public class AppointmentMain extends javax.swing.JPanel {
         doctor = (Doctor) cbxDoctors.getSelectedItem();
         setDate(day);
     }//GEN-LAST:event_cbxDoctorsActionPerformed
+
+    private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
+        
+    }//GEN-LAST:event_formComponentResized
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

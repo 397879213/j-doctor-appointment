@@ -35,6 +35,7 @@ public class DayPanel extends javax.swing.JPanel {
     private final SimpleDateFormat day;
     private Date time;
     private ArrayList<AppointmentPanel> appointmentsComp;
+    private ArrayList<AppointmentPanel> scheludeComp;
     private Dimension oldDimension;
     
     private ArrayList<Appointment> appointments;
@@ -55,6 +56,7 @@ public class DayPanel extends javax.swing.JPanel {
         this.appointmentMain = appointmentMain;
         
         appointmentsComp = new ArrayList<>();
+        scheludeComp = new ArrayList<>();
 
         this.schedule = schedule;
         
@@ -85,9 +87,11 @@ public class DayPanel extends javax.swing.JPanel {
     }
     
     public void addSchedule() {
-        for (AppointmentPanel comp : appointmentsComp) {
-            panelAppointments.remove(comp);
+        for (AppointmentPanel comp : scheludeComp) {
+            panelAp.remove(comp);
         }
+        
+        scheludeComp = new ArrayList<>();
         
         Float maxMinutes = 288f;
         Float step = (maxMinutes /panelAppointments.getHeight());
@@ -116,7 +120,7 @@ public class DayPanel extends javax.swing.JPanel {
             Integer heigth = Math.round(((duration/5)*panelAppointments.getHeight())/288);
             
             panelAp.add(panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, posy, 200, heigth));
-            appointmentsComp.add(panel);
+            scheludeComp.add(panel);
             
         }
         
@@ -126,8 +130,9 @@ public class DayPanel extends javax.swing.JPanel {
     
     public void addAppointments() {
         for (AppointmentPanel comp : appointmentsComp) {
-            panelAppointments.remove(comp);
+            panelAp.remove(comp);
         }
+        appointmentsComp = new ArrayList<>();
         
         Float maxMinutes = 288f;
         Integer minMinutes = 0;
@@ -135,7 +140,6 @@ public class DayPanel extends javax.swing.JPanel {
         Float step = (maxMinutes /panelAppointments.getHeight());
         
         for (Appointment ap : appointments) {
-            
             AppointmentPanel panel = new AppointmentPanel();
             Integer minute = ((ap.getData()).get(Calendar.MINUTE)+
                     (ap.getData()).get(Calendar.HOUR_OF_DAY)*60)/5;
@@ -174,6 +178,9 @@ public class DayPanel extends javax.swing.JPanel {
         panelSchedule = new javax.swing.JPanel();
 
         addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                formComponentResized(evt);
+            }
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 formComponentShown(evt);
             }
@@ -312,6 +319,11 @@ public class DayPanel extends javax.swing.JPanel {
         addAppointments();
         addSchedule();
     }//GEN-LAST:event_panelApComponentResized
+
+    private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
+        addAppointments();
+        addSchedule();
+    }//GEN-LAST:event_formComponentResized
 
     public void setAppointments(ArrayList<Appointment> appointments) {
         this.appointments = appointments;

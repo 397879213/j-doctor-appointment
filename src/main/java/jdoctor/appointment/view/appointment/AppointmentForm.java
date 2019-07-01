@@ -664,13 +664,12 @@ public class AppointmentForm extends javax.swing.JPanel {
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         controller = new AppointmentController();
         errorPanel.clean();
-        System.out.println(txtPrice.getText());
-        System.out.println(Float.parseFloat("222234.123"));
         try {
             formToObject(appointment);
             controller.save(appointment);
+            GuiUtils.showConfirmOkDialog("Salvo com sucesso!", this);
         } catch (ControllerException ex) {
-            errorPanel.addError(ex.getMessage());
+            GuiUtils.showErrorOkDialog(ex.getMessage(), this);
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
