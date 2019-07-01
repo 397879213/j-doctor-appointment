@@ -102,6 +102,7 @@ public class MainFrame extends javax.swing.JFrame {
         secretaryManage = new javax.swing.JScrollPane();
         jPanel2 = new javax.swing.JPanel();
         genericTableView = new jdoctor.appointment.view.person.PersonTableView();
+        reportPanel1 = new jdoctor.appointment.view.reports.ReportPanel();
         menuBar = new javax.swing.JMenuBar();
         menuSystem = new javax.swing.JMenu();
         menuItemHome = new javax.swing.JMenuItem();
@@ -117,6 +118,11 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem9 = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
+        jMenuItem11 = new javax.swing.JMenuItem();
+        jMenuItem12 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(400, 500));
@@ -149,6 +155,19 @@ public class MainFrame extends javax.swing.JFrame {
         secretaryManage.setViewportView(jPanel2);
 
         getContentPane().add(secretaryManage, "adminSecretary");
+
+        javax.swing.GroupLayout reportPanel1Layout = new javax.swing.GroupLayout(reportPanel1);
+        reportPanel1.setLayout(reportPanel1Layout);
+        reportPanel1Layout.setHorizontalGroup(
+            reportPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 585, Short.MAX_VALUE)
+        );
+        reportPanel1Layout.setVerticalGroup(
+            reportPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 364, Short.MAX_VALUE)
+        );
+
+        getContentPane().add(reportPanel1, "card8");
 
         menuSystem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/info.png"))); // NOI18N
         menuSystem.setText("Sistema");
@@ -256,6 +275,47 @@ public class MainFrame extends javax.swing.JFrame {
 
         menuBar.add(menuAdmin);
 
+        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/window.png"))); // NOI18N
+        jMenu1.setText("Relatorios");
+
+        jMenuItem9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/gravatar_mistery_man.png"))); // NOI18N
+        jMenuItem9.setText("Pessoas registradas");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem9);
+
+        jMenuItem10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/medic32.gif"))); // NOI18N
+        jMenuItem10.setText("Médicos");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem10);
+
+        jMenuItem11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/tumblr_inline_nfq8i3motj1siyl8l.gif"))); // NOI18N
+        jMenuItem11.setText("Secreatarias");
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem11ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem11);
+
+        jMenuItem12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/gravatar_mistery_man.png"))); // NOI18N
+        jMenuItem12.setText("Pacientes");
+        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem12ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem12);
+
+        menuBar.add(jMenu1);
+
         setJMenuBar(menuBar);
 
         pack();
@@ -328,6 +388,22 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        reportPanel1.createReport("person");
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        reportPanel1.createReport("medic");
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
+
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+        reportPanel1.createReport("secretary");
+    }//GEN-LAST:event_jMenuItem11ActionPerformed
+
+    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
+        reportPanel1.createReport("pacient");
+    }//GEN-LAST:event_jMenuItem12ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -376,7 +452,11 @@ public class MainFrame extends javax.swing.JFrame {
     private jdoctor.appointment.view.doctor.EditSchedulePanel editSchedulePanel1;
     private jdoctor.appointment.view.person.PersonTableView genericTableView;
     private jdoctor.appointment.view.system.HomePanel homePanel;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem10;
+    private javax.swing.JMenuItem jMenuItem11;
+    private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
@@ -384,6 +464,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private jdoctor.appointment.view.docuser.MainLoginPanel mainLoginPanel;
@@ -394,6 +475,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenu menuSecretary;
     private javax.swing.JMenu menuSystem;
     private javax.swing.JMenu menuUser;
+    private jdoctor.appointment.view.reports.ReportPanel reportPanel1;
     private javax.swing.JScrollPane scrollUserPanel;
     private javax.swing.JScrollPane secretaryManage;
     // End of variables declaration//GEN-END:variables
